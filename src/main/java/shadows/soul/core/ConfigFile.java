@@ -11,6 +11,7 @@ public class ConfigFile {
 	public static boolean enableBlaze = true; //enable Blaze Immolation
 	public static int shardDropChance = 1; // 1/n
 	public static int extraWitherSkeletons = 0; //+n skeletons per spawn event
+	public static boolean extraSpawns = false;
 
 	public static void syncConfig() { // Gets called from preInit
 	    try {
@@ -43,12 +44,18 @@ public class ConfigFile {
 	                "0", // Default value
 	                "How many extra wither skeletons are spawned when one would be.",
 	                Property.Type.INTEGER); // Comment
+	        Property PExtraSpawns = CommonProxy.config.get(Configuration.CATEGORY_GENERAL, // What category will it be saved to, can be any string
+	                "Extra Spawns", // Property name
+	                "false", // Default value
+	                "(EXPERIMENTAL) If wither skeletons can spawn where blazes and pigmen do.",
+	                Property.Type.BOOLEAN); 
 	        
 	        	shardValue = PShardValue.getInt();
 	        	enableLava = PEnableLava.getBoolean();
 	        	enableBlaze = PEnableBlaze.getBoolean();
 	        	shardDropChance = PShardDropChance.getInt();
 	        	extraWitherSkeletons = PExtraWitherSkeletons.getInt();
+	        	extraSpawns = PExtraSpawns.getBoolean();
 	    } catch (Exception e) {
 	        // Failed reading/writing, just continue
 	    } finally {

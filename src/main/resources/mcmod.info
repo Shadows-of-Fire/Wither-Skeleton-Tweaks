@@ -1,16 +1,16 @@
 [
 {
-  "modid": "attaineddrops",
-  "name": "Attained Drops",
-  "description": "Making mob drops more attainable",
-  "version": "2.0",
-  "mcversion": "1.10.2",
+  "modid": "witherskelefix",
+  "name": "Wither Skeleton Tweaks",
+  "description": "Fixing Wither Skeletons",
+  "version": "1.4.1",
+  "mcversion": "1.11.2",
   "url": "",
   "updateUrl": "",
   "authors": [
     "Shadows_of_Fire"
   ],
-  "credits": "VapourDrive",
+  "credits": "",
   "logoFile": "",
   "screenshots": [
   ],

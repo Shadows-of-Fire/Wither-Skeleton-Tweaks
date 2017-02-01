@@ -4,13 +4,17 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.monster.EntityBlaze;
+import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityWitherSkeleton;
 import net.minecraft.init.Biomes;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
@@ -49,7 +53,16 @@ public class SoulEvents {
     	if (world.getBiome(new BlockPos(x, y, z)) == Biomes.HELL){
         	for(int i = 0; i < kx; i++){
             	SoulMethods.spawnCreature(world, new EntityWitherSkeleton(world), x, y, z);
-           }}}}}
+           }}}}
+    	if(event.getEntity() instanceof EntityBlaze || event.getEntity() instanceof EntityPigZombie){
+    		if(ConfigFile.extraSpawns){
+    		World world = event.getWorld();
+    		Entity entity = event.getEntity();
+    		BlockPos pos = world.rayTraceBlocks(new Vec3d(entity.posX, entity.posY, entity.posZ), new Vec3d(entity.posX, entity.posY - 10.0D, entity.posZ)).getBlockPos();
+    		if(pos != null && world.getBlockState(pos).getBlock() == Blocks.NETHER_BRICK){
+    	    	for(int i = -1; i < kx; i++){
+    	        SoulMethods.spawnCreature(world, new EntityWitherSkeleton(world), entity.posX, entity.posY, entity.posZ);
+    	    }}}}}
     
    @SubscribeEvent
    public void addFrags(LivingDropsEvent event){
