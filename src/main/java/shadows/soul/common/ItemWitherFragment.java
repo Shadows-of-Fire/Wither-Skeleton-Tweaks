@@ -6,12 +6,12 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import shadows.soul.core.Soulforged;
+import shadows.soul.core.WitherFix;
 
 public class ItemWitherFragment extends Item{
 	public ItemWitherFragment(){
 		setRegistryName("fragment");
-		setUnlocalizedName(Soulforged.MODID + ".fragment");
+		setUnlocalizedName(WitherFix.MODID + ".fragment");
 		GameRegistry.register(this);
 	}
 	

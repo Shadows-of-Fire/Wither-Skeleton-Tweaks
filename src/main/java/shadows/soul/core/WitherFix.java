@@ -7,19 +7,19 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import shadows.soul.proxy.CommonProxy;
 
-@Mod(modid = Soulforged.MODID, version = Soulforged.VERSION, name = Soulforged.MODNAME)
+@Mod(modid = WitherFix.MODID, version = WitherFix.VERSION, name = WitherFix.MODNAME)
 
 
-public class Soulforged {
+public class WitherFix {
     public static final String MODID = "witherskelefix";
     public static final String MODNAME = "Wither Skeleton Tweaks";
-    public static final String VERSION = "1.3.0";
+    public static final String VERSION = "1.4.0";
 
     @SidedProxy(clientSide = "shadows.soul.proxy.ClientProxy", serverSide = "shadows.soul.proxy.CommonProxy")
     public static CommonProxy proxy;
 	
     @Mod.Instance
-    public static Soulforged instance;
+    public static WitherFix instance;
     
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)

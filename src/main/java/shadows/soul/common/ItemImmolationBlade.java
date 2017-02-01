@@ -11,7 +11,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import shadows.soul.core.Soulforged;
+import shadows.soul.core.WitherFix;
 
 public class ItemImmolationBlade extends ItemSword{
 	
@@ -21,7 +21,7 @@ public class ItemImmolationBlade extends ItemSword{
 		super(material_);
 		material = material_;
 		setRegistryName(name);
-		setUnlocalizedName(Soulforged.MODID + "." + name);
+		setUnlocalizedName(WitherFix.MODID + "." + name);
 		setCreativeTab(CreativeTabs.COMBAT);
 		GameRegistry.register(this);
 	}
