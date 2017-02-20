@@ -12,6 +12,7 @@ public class ConfigFile {
 	public static int shardDropChance = 1; // 1/n
 	public static int extraWitherSkeletons = 0; //+n skeletons per spawn event
 	public static boolean extraSpawns = false;
+	public static boolean allowAllBiomes = false;
 
 	public static void syncConfig() { // Gets called from preInit
 	    try {
@@ -47,7 +48,12 @@ public class ConfigFile {
 	        Property PExtraSpawns = CommonProxy.config.get(Configuration.CATEGORY_GENERAL, // What category will it be saved to, can be any string
 	                "Extra Spawns", // Property name
 	                "false", // Default value
-	                "(EXPERIMENTAL) If wither skeletons can spawn where blazes and pigmen do.",
+	                "If, when a blaze or pigman spawns on Nether Brick, a wither skeleton spawns with it.",
+	                Property.Type.BOOLEAN); 
+	        Property PAllBiomes = CommonProxy.config.get(Configuration.CATEGORY_GENERAL, // What category will it be saved to, can be any string
+	                "All Biomes", // Property name
+	                "false", // Default value
+	                "If ALL skeletons in any Biome are turned into Wither Skeletons.",
 	                Property.Type.BOOLEAN); 
 	        
 	        	shardValue = PShardValue.getInt();
@@ -56,6 +62,7 @@ public class ConfigFile {
 	        	shardDropChance = PShardDropChance.getInt();
 	        	extraWitherSkeletons = PExtraWitherSkeletons.getInt();
 	        	extraSpawns = PExtraSpawns.getBoolean();
+	        	allowAllBiomes = PAllBiomes.getBoolean();
 	    } catch (Exception e) {
 	        // Failed reading/writing, just continue
 	    } finally {

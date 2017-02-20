@@ -20,16 +20,17 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import shadows.soul.core.ConfigFile;
 import shadows.soul.core.ModRegistry;
 
 @Mod.EventBusSubscriber
 public class SoulEvents {
 
-	private static final int kx = Math.max(0, ConfigFile.extraWitherSkeletons);
+	private static final int tries = Math.max(0, ConfigFile.extraWitherSkeletons);
 	
     @SubscribeEvent
-    public void skeleFixer(LivingSpawnEvent event) {
+    public void skeleFixer(LivingSpawnEvent.CheckSpawn event) {
     	if (event.getEntity() instanceof EntitySkeleton){
     	if (!event.getEntity().world.isRemote){
     		Entity entity = event.getEntity();
@@ -37,10 +38,9 @@ public class SoulEvents {
     		double x = entity.posX;
     		double y = entity.posY;
     		double z = entity.posZ;
-    	if (world.getBiome(new BlockPos(x, y, z)) == Biomes.HELL){
-    	entity.setDropItemsWhenDead(false);
-    	entity.setDead();
-    	for(int i = 0; i < kx; i++){
+    	if (world.getBiome(new BlockPos(x, y, z)) == Biomes.HELL || ConfigFile.allowAllBiomes){
+    	event.setResult(Result.DENY);
+    	for(int i = -1; i < tries; i++){
     	SoulMethods.spawnCreature(world, new EntityWitherSkeleton(world), x, y, z);
     	}}}}
     	else if (event.getEntity() instanceof EntityWitherSkeleton){
@@ -51,16 +51,16 @@ public class SoulEvents {
     		double y = entity.posY;
     		double z = entity.posZ;
     	if (world.getBiome(new BlockPos(x, y, z)) == Biomes.HELL){
-        	for(int i = 0; i < kx; i++){
+        	for(int i = 0; i < tries; i++){
             	SoulMethods.spawnCreature(world, new EntityWitherSkeleton(world), x, y, z);
            }}}}
-    	if(event.getEntity() instanceof EntityBlaze || event.getEntity() instanceof EntityPigZombie){
+    	else if(event.getEntity() instanceof EntityBlaze || event.getEntity() instanceof EntityPigZombie){
     		if(ConfigFile.extraSpawns){
     		World world = event.getWorld();
     		Entity entity = event.getEntity();
-    		BlockPos pos = world.rayTraceBlocks(new Vec3d(entity.posX, entity.posY, entity.posZ), new Vec3d(entity.posX, entity.posY - 10.0D, entity.posZ)).getBlockPos();
+    		BlockPos pos = entity.getPosition().down();
     		if(pos != null && world.getBlockState(pos).getBlock() == Blocks.NETHER_BRICK){
-    	    	for(int i = -1; i < kx; i++){
+    	    	for(int i = -1; i < tries; i++){
     	        SoulMethods.spawnCreature(world, new EntityWitherSkeleton(world), entity.posX, entity.posY, entity.posZ);
     	    }}}}}
     
