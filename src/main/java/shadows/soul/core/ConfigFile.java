@@ -13,6 +13,7 @@ public class ConfigFile {
 	public static int extraWitherSkeletons = 0; //+n skeletons per spawn event
 	public static boolean extraSpawns = false;
 	public static boolean allowAllBiomes = false;
+	public static boolean delSwords = true; //name
 
 	public static void syncConfig() { // Gets called from preInit
 	    try {
@@ -55,6 +56,11 @@ public class ConfigFile {
 	                "false", // Default value
 	                "If ALL skeletons in any Biome are turned into Wither Skeletons.",
 	                Property.Type.BOOLEAN); 
+	        Property PDelSwords = CommonProxy.config.get(Configuration.CATEGORY_GENERAL, // What category will it be saved to, can be any string
+	                "Delete Stone Swords", // Property name
+	                "true", // Default value
+	                "Whether or not to remove stone swords from wither skeleton drops.",
+	                Property.Type.BOOLEAN); 
 	        
 	        	shardValue = PShardValue.getInt();
 	        	enableLava = PEnableLava.getBoolean();
@@ -63,6 +69,7 @@ public class ConfigFile {
 	        	extraWitherSkeletons = PExtraWitherSkeletons.getInt();
 	        	extraSpawns = PExtraSpawns.getBoolean();
 	        	allowAllBiomes = PAllBiomes.getBoolean();
+	        	delSwords = PDelSwords.getBoolean();
 	    } catch (Exception e) {
 	        // Failed reading/writing, just continue
 	    } finally {
