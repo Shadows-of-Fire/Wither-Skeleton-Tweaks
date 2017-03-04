@@ -13,10 +13,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import shadows.soul.core.WitherFix;
 
-public class ItemImmolationBlade extends ItemSword{
-	
+public class ItemImmolationBlade extends ItemSword {
+
 	private ToolMaterial material;
-	
+
 	public ItemImmolationBlade(String name, ToolMaterial material_) {
 		super(material_);
 		material = material_;
@@ -25,34 +25,32 @@ public class ItemImmolationBlade extends ItemSword{
 		setCreativeTab(CreativeTabs.COMBAT);
 		GameRegistry.register(this);
 	}
-	
+
 	@Override
-    public float getDamageVsEntity()
-    {
-        return this.material.getDamageVsEntity();
-    }
-	
+	public float getDamageVsEntity() {
+		return this.material.getDamageVsEntity();
+	}
+
 	@Override
-    public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
-    {
-        stack.damageItem(1, attacker);
-        
-        if(target instanceof AbstractSkeleton){
-        target.setHealth(1);
-        target.attackEntityFrom(DamageSource.field_191552_t, 150);
-        double i = target.getEntityWorld().rand.nextDouble() * 2.0D;
-        double d = target.getEntityWorld().rand.nextDouble() * 2.0D;
-        double k = target.getEntityWorld().rand.nextDouble() * 2.0D;
-        target.setVelocity((1.0d - i), d, (1.0d - k));
-        return true;
-        }
-        target.setFire(150);
-        return true;
-    }
-	
+	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
+		stack.damageItem(1, attacker);
+
+		if (target instanceof AbstractSkeleton) {
+			target.setHealth(1);
+			target.attackEntityFrom(DamageSource.field_191552_t, 150);
+			double i = target.getEntityWorld().rand.nextDouble() * 2.0D;
+			double d = target.getEntityWorld().rand.nextDouble() * 2.0D;
+			double k = target.getEntityWorld().rand.nextDouble() * 2.0D;
+			target.setVelocity((1.0d - i), d, (1.0d - k));
+			return true;
+		}
+		target.setFire(150);
+		return true;
+	}
+
 	@SideOnly(Side.CLIENT)
 	public void initModel() {
-			ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
 	}
 
 }

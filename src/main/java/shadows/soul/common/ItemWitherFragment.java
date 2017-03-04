@@ -8,17 +8,16 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import shadows.soul.core.WitherFix;
 
-public class ItemWitherFragment extends Item{
-	public ItemWitherFragment(){
+public class ItemWitherFragment extends Item {
+	public ItemWitherFragment() {
 		setRegistryName("fragment");
 		setUnlocalizedName(WitherFix.MODID + ".fragment");
 		GameRegistry.register(this);
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	public void initModel() {
-			ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
 	}
 
-	
 }
