@@ -38,10 +38,10 @@ public class ItemImmolationBlade extends ItemSword {
 		if (target instanceof AbstractSkeleton) {
 			target.setHealth(1);
 			target.attackEntityFrom(DamageSource.field_191552_t, 150);
-			double i = target.getEntityWorld().rand.nextDouble() * 2.0D;
-			double d = target.getEntityWorld().rand.nextDouble() * 2.0D;
-			double k = target.getEntityWorld().rand.nextDouble() * 2.0D;
-			target.setVelocity((1.0d - i), d, (1.0d - k));
+			double i = target.getEntityWorld().rand.nextDouble() * 4.0D;
+			double d = target.getEntityWorld().rand.nextDouble() * 4.0D;
+			double k = target.getEntityWorld().rand.nextDouble() * 4.0D;
+			target.setVelocity((2.0D - i), d, (2.0D - k));
 			return true;
 		}
 		target.setFire(150);
