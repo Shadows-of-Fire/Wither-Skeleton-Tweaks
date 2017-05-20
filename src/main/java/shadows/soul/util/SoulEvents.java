@@ -42,7 +42,7 @@ public class SoulEvents {
 				double x = entity.posX;
 				double y = entity.posY;
 				double z = entity.posZ;
-				if (world.getBiome(new BlockPos(x, y, z)) == Biomes.HELL || (ConfigFile.allowAllBiomes && event.getWorld().rand.nextInt(allBiomesChance) == 0)) {
+				if (world.getBiome(new BlockPos(x, y, z)) == Biomes.HELL || (ConfigFile.allowAllBiomes && !event.getWorld().isDaytime() && event.getWorld().rand.nextInt(allBiomesChance) == 0)) {
 					event.setResult(Result.DENY);
 					for (int i = -1; i < tries; i++) {
 						SoulMethods.spawnCreature(world, new EntityWitherSkeleton(world), x, y, z);

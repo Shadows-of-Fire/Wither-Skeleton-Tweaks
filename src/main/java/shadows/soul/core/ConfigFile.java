@@ -55,7 +55,7 @@ public class ConfigFile {
 					"If ALL skeletons in any Biome are turned into Wither Skeletons.", Property.Type.BOOLEAN);
 			Property PAllBiomesChance = CommonProxy.config.get(Configuration.CATEGORY_GENERAL, 
 					"All Biomes Chance", // Property name
-					"0", // Default value
+					"1", // Default value
 					"The 1/n chance for (if \"All Biomes\" is true) a skeleton in a non-Hell biome to be a Wither Skeleton", Property.Type.INTEGER);
 			Property PDelSwords = CommonProxy.config.get(Configuration.CATEGORY_GENERAL, 
 					"Delete Stone Swords", // Property name
