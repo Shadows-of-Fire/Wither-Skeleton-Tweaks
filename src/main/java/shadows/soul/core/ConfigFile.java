@@ -14,6 +14,7 @@ public class ConfigFile {
 	public static boolean extraSpawns = false;
 	public static boolean allowAllBiomes = false;
 	public static boolean delSwords = true; // name
+	public static int allBiomesChance = 1;
 
 	public static void syncConfig() { // Gets called from preInit
 		try {
@@ -21,118 +22,42 @@ public class ConfigFile {
 			CommonProxy.config.load();
 
 			// Read props from config
-			Property PShardValue = CommonProxy.config.get(Configuration.CATEGORY_GENERAL, // What
-																							// category
-																							// will
-																							// it
-																							// be
-																							// saved
-																							// to,
-																							// can
-																							// be
-																							// any
-																							// string
+			Property PShardValue = CommonProxy.config.get(Configuration.CATEGORY_GENERAL,
 					"Shard Value", // Property name
 					"9", // Default value
 					"The value of a skull fragment, in terms of 1/n (How many shards per skull) Valid values are 1-9",
 					Property.Type.INTEGER); // Comment
-			Property PEnableLava = CommonProxy.config.get(Configuration.CATEGORY_GENERAL, // What
-																							// category
-																							// will
-																							// it
-																							// be
-																							// saved
-																							// to,
-																							// can
-																							// be
-																							// any
-																							// string
+			Property PEnableLava = CommonProxy.config.get(Configuration.CATEGORY_GENERAL,
 					"Enable Lava Immolation Blade", // Property name
 					"true", // Default value
 					"If the Immolation Blade (Lava) is enabled", Property.Type.BOOLEAN); // Comment
-			Property PEnableBlaze = CommonProxy.config.get(Configuration.CATEGORY_GENERAL, // What
-																							// category
-																							// will
-																							// it
-																							// be
-																							// saved
-																							// to,
-																							// can
-																							// be
-																							// any
-																							// string
+			Property PEnableBlaze = CommonProxy.config.get(Configuration.CATEGORY_GENERAL, 
 					"Enable Blaze Immolation Blade", // Property name
 					"true", // Default value
 					"If the Immolation Blade (Blaze) is enabled", Property.Type.BOOLEAN); // Comment
-			Property PShardDropChance = CommonProxy.config.get(Configuration.CATEGORY_GENERAL, // What
-																								// category
-																								// will
-																								// it
-																								// be
-																								// saved
-																								// to,
-																								// can
-																								// be
-																								// any
-																								// string
+			Property PShardDropChance = CommonProxy.config.get(Configuration.CATEGORY_GENERAL, 
 					"Fragment Drop Chance", // Property name
 					"1", // Default value
-					"The wither skull fragment drop chance in 1/n.  Higher numbers means less drops.",
+					"The wither skull fragment drop chance in 1/n.  Higher numbers means less drops. Set to 0 to disable.",
 					Property.Type.INTEGER); // Comment
-			Property PExtraWitherSkeletons = CommonProxy.config.get(Configuration.CATEGORY_GENERAL, // What
-																									// category
-																									// will
-																									// it
-																									// be
-																									// saved
-																									// to,
-																									// can
-																									// be
-																									// any
-																									// string
+			Property PExtraWitherSkeletons = CommonProxy.config.get(Configuration.CATEGORY_GENERAL,
 					"Extra Wither Skeletons", // Property name
 					"0", // Default value
 					"How many extra wither skeletons are spawned when one would be.", Property.Type.INTEGER); // Comment
-			Property PExtraSpawns = CommonProxy.config.get(Configuration.CATEGORY_GENERAL, // What
-																							// category
-																							// will
-																							// it
-																							// be
-																							// saved
-																							// to,
-																							// can
-																							// be
-																							// any
-																							// string
+			Property PExtraSpawns = CommonProxy.config.get(Configuration.CATEGORY_GENERAL, 
 					"Extra Spawns", // Property name
 					"false", // Default value
 					"If, when a blaze or pigman spawns on Nether Brick, a wither skeleton spawns with it.",
 					Property.Type.BOOLEAN);
-			Property PAllBiomes = CommonProxy.config.get(Configuration.CATEGORY_GENERAL, // What
-																							// category
-																							// will
-																							// it
-																							// be
-																							// saved
-																							// to,
-																							// can
-																							// be
-																							// any
-																							// string
+			Property PAllBiomes = CommonProxy.config.get(Configuration.CATEGORY_GENERAL, 
 					"All Biomes", // Property name
 					"false", // Default value
 					"If ALL skeletons in any Biome are turned into Wither Skeletons.", Property.Type.BOOLEAN);
-			Property PDelSwords = CommonProxy.config.get(Configuration.CATEGORY_GENERAL, // What
-																							// category
-																							// will
-																							// it
-																							// be
-																							// saved
-																							// to,
-																							// can
-																							// be
-																							// any
-																							// string
+			Property PAllBiomesChance = CommonProxy.config.get(Configuration.CATEGORY_GENERAL, 
+					"All Biomes Chance", // Property name
+					"0", // Default value
+					"The 1/n chance for (if \"All Biomes\" is true) a skeleton in a non-Hell biome to be a Wither Skeleton", Property.Type.INTEGER);
+			Property PDelSwords = CommonProxy.config.get(Configuration.CATEGORY_GENERAL, 
 					"Delete Stone Swords", // Property name
 					"true", // Default value
 					"Whether or not to remove stone swords from wither skeleton drops.", Property.Type.BOOLEAN);
@@ -145,6 +70,7 @@ public class ConfigFile {
 			extraSpawns = PExtraSpawns.getBoolean();
 			allowAllBiomes = PAllBiomes.getBoolean();
 			delSwords = PDelSwords.getBoolean();
+			allBiomesChance = PAllBiomesChance.getInt();
 		} catch (Exception e) {
 			// Failed reading/writing, just continue
 		} finally {

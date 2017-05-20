@@ -31,6 +31,7 @@ import shadows.soul.core.ModRegistry;
 public class SoulEvents {
 
 	private static final int tries = Math.max(0, ConfigFile.extraWitherSkeletons);
+	private static final int allBiomesChance = Math.max(1, ConfigFile.allBiomesChance);
 
 	@SubscribeEvent
 	public void skeleFixer(LivingSpawnEvent.CheckSpawn event) {
@@ -41,7 +42,7 @@ public class SoulEvents {
 				double x = entity.posX;
 				double y = entity.posY;
 				double z = entity.posZ;
-				if (world.getBiome(new BlockPos(x, y, z)) == Biomes.HELL || ConfigFile.allowAllBiomes) {
+				if (world.getBiome(new BlockPos(x, y, z)) == Biomes.HELL || (ConfigFile.allowAllBiomes && event.getWorld().rand.nextInt(allBiomesChance) == 0)) {
 					event.setResult(Result.DENY);
 					for (int i = -1; i < tries; i++) {
 						SoulMethods.spawnCreature(world, new EntityWitherSkeleton(world), x, y, z);
@@ -78,6 +79,7 @@ public class SoulEvents {
 
 	@SubscribeEvent
 	public void addFrags(LivingDropsEvent event) {
+		if(ConfigFile.shardDropChance <= 0) return;
 		if (event.getEntity().world.rand.nextInt(ConfigFile.shardDropChance) == 0) {
 			if (!event.getEntity().world.isRemote && event.getEntity() instanceof EntityWitherSkeleton
 					&& !(event.getSource() == DamageSource.field_191552_t)) {

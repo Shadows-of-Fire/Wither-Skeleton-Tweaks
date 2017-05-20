@@ -20,7 +20,7 @@ public class CommonProxy {
 	public void preInit(FMLPreInitializationEvent e) {
 		config = new Configuration(e.getSuggestedConfigurationFile());
 		ConfigFile.syncConfig();
-		EnumHelper.addToolMaterial("immolation", 9, 4096, 0.6f, 9.3f, 72);
+		EnumHelper.addToolMaterial("immolation", 9, 4096, 0.6f, 12f, 72);
 		ModRegistry.init();
 		RecipeRegistry.init();
 	}
