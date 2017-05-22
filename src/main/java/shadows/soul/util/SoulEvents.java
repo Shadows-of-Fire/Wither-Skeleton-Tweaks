@@ -33,26 +33,27 @@ public class SoulEvents {
 	private static final int allBiomesChance = Math.max(1, ConfigFile.allBiomesChance);
 
 	@SubscribeEvent
-	public void witherTransform(LivingSpawnEvent.SpecialSpawn event){
-			if (event.getEntity() instanceof EntitySkeleton) {
-				if (!event.getEntity().world.isRemote) {
-					Entity entity = event.getEntity();
-					World world = entity.world;
-					double x = entity.posX;
-					double y = entity.posY;
-					double z = entity.posZ;
-					if (world.getBiome(new BlockPos(x, y, z)) == Biomes.HELL || (ConfigFile.allowAllBiomes && !event.getWorld().isDaytime() && event.getWorld().rand.nextInt(allBiomesChance) == 0)) {
-						event.setCanceled(true);
-						entity.setDropItemsWhenDead(false);
-						entity.setDead();
-						for (int i = -1; i < tries; i++) {
-							SoulMethods.spawnCreature(world, new EntityWitherSkeleton(world), x, y, z);
-						}
+	public void witherTransform(LivingSpawnEvent.SpecialSpawn event) {
+		if (event.getEntity() instanceof EntitySkeleton) {
+			if (!event.getEntity().world.isRemote) {
+				Entity entity = event.getEntity();
+				World world = entity.world;
+				double x = entity.posX;
+				double y = entity.posY;
+				double z = entity.posZ;
+				if (world.getBiome(new BlockPos(x, y, z)) == Biomes.HELL || (ConfigFile.allowAllBiomes
+						&& !event.getWorld().isDaytime() && event.getWorld().rand.nextInt(allBiomesChance) == 0)) {
+					event.setCanceled(true);
+					entity.setDropItemsWhenDead(false);
+					entity.setDead();
+					for (int i = -1; i < tries; i++) {
+						SoulMethods.spawnCreature(world, new EntityWitherSkeleton(world), x, y, z);
 					}
 				}
 			}
+		}
 	}
-	
+
 	@SubscribeEvent
 	public void skeleFixer(LivingSpawnEvent.CheckSpawn event) {
 		if (event.getEntity() instanceof EntityWitherSkeleton) {
@@ -85,7 +86,8 @@ public class SoulEvents {
 
 	@SubscribeEvent
 	public void addFrags(LivingDropsEvent event) {
-		if(ConfigFile.shardDropChance <= 0) return;
+		if (ConfigFile.shardDropChance <= 0)
+			return;
 		if (event.getEntity().world.rand.nextInt(ConfigFile.shardDropChance) == 0) {
 			if (!event.getEntity().world.isRemote && event.getEntity() instanceof EntityWitherSkeleton
 					&& !(event.getSource() == DamageSource.field_191552_t)) {

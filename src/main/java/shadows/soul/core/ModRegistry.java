@@ -13,15 +13,19 @@ public class ModRegistry {
 
 	public static void init() {
 		fragment = new ItemWitherFragment();
-		if (ConfigFile.enableLava) lava_sword = new ItemImmolationBlade("blade", ToolMaterial.valueOf("immolation"));
-		if (ConfigFile.enableBlaze) blaze_sword = new ItemImmolationBlade("blade2", ToolMaterial.valueOf("immolation"));
+		if (ConfigFile.enableLava)
+			lava_sword = new ItemImmolationBlade("blade", ToolMaterial.valueOf("immolation"));
+		if (ConfigFile.enableBlaze)
+			blaze_sword = new ItemImmolationBlade("blade2", ToolMaterial.valueOf("immolation"));
 	}
 
 	@SideOnly(Side.CLIENT)
 	public static void initModels() {
 		fragment.initModel();
-		if (ConfigFile.enableLava) lava_sword.initModel();
-		if (ConfigFile.enableBlaze) blaze_sword.initModel();
+		if (ConfigFile.enableLava)
+			lava_sword.initModel();
+		if (ConfigFile.enableBlaze)
+			blaze_sword.initModel();
 	}
 
 }

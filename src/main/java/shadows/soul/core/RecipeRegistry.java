@@ -19,11 +19,11 @@ public class RecipeRegistry {
 			list.add(new ItemStack(ModRegistry.fragment));
 		}
 		if (ConfigFile.enableLava)
-			GameRegistry.addRecipe(new ItemStack(ModRegistry.lava_sword), " LS", "LSL", "TL ", 'L', Items.LAVA_BUCKET, 'S',
-					Items.NETHER_STAR, 'T', Items.STICK);
+			GameRegistry.addRecipe(new ItemStack(ModRegistry.lava_sword), " LS", "LSL", "TL ", 'L', Items.LAVA_BUCKET,
+					'S', Items.NETHER_STAR, 'T', Items.STICK);
 		if (ConfigFile.enableBlaze)
-			GameRegistry.addRecipe(new ItemStack(ModRegistry.blaze_sword), " LS", "LSL", "TL ", 'L', Items.BLAZE_ROD, 'S',
-					Items.NETHER_STAR, 'T', Items.STICK);
+			GameRegistry.addRecipe(new ItemStack(ModRegistry.blaze_sword), " LS", "LSL", "TL ", 'L', Items.BLAZE_ROD,
+					'S', Items.NETHER_STAR, 'T', Items.STICK);
 		CraftingManager.getInstance().addRecipe(new ShapelessRecipes(new ItemStack(Items.SKULL, 1, 1), list));
 	}
 }
