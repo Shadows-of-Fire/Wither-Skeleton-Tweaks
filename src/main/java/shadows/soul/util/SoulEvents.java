@@ -21,7 +21,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import shadows.soul.core.ConfigFile;
@@ -34,22 +33,29 @@ public class SoulEvents {
 	private static final int allBiomesChance = Math.max(1, ConfigFile.allBiomesChance);
 
 	@SubscribeEvent
-	public void skeleFixer(LivingSpawnEvent.CheckSpawn event) {
-		if (event.getEntity() instanceof EntitySkeleton) {
-			if (!event.getEntity().world.isRemote) {
-				Entity entity = event.getEntity();
-				World world = entity.world;
-				double x = entity.posX;
-				double y = entity.posY;
-				double z = entity.posZ;
-				if (world.getBiome(new BlockPos(x, y, z)) == Biomes.HELL || (ConfigFile.allowAllBiomes && !event.getWorld().isDaytime() && event.getWorld().rand.nextInt(allBiomesChance) == 0)) {
-					event.setResult(Result.DENY);
-					for (int i = -1; i < tries; i++) {
-						SoulMethods.spawnCreature(world, new EntityWitherSkeleton(world), x, y, z);
+	public void witherTransform(LivingSpawnEvent.SpecialSpawn event){
+			if (event.getEntity() instanceof EntitySkeleton) {
+				if (!event.getEntity().world.isRemote) {
+					Entity entity = event.getEntity();
+					World world = entity.world;
+					double x = entity.posX;
+					double y = entity.posY;
+					double z = entity.posZ;
+					if (world.getBiome(new BlockPos(x, y, z)) == Biomes.HELL || (ConfigFile.allowAllBiomes && !event.getWorld().isDaytime() && event.getWorld().rand.nextInt(allBiomesChance) == 0)) {
+						event.setCanceled(true);
+						entity.setDropItemsWhenDead(false);
+						entity.setDead();
+						for (int i = -1; i < tries; i++) {
+							SoulMethods.spawnCreature(world, new EntityWitherSkeleton(world), x, y, z);
+						}
 					}
 				}
 			}
-		} else if (event.getEntity() instanceof EntityWitherSkeleton) {
+	}
+	
+	@SubscribeEvent
+	public void skeleFixer(LivingSpawnEvent.CheckSpawn event) {
+		if (event.getEntity() instanceof EntityWitherSkeleton) {
 			if (!event.getEntity().world.isRemote) {
 				Entity entity = event.getEntity();
 				World world = entity.world;
