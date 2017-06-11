@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.item.crafting.ShapelessRecipes;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
+import shadows.soul.util.RecipeHelper;
 
 public class RecipeRegistry {
 
@@ -18,20 +18,16 @@ public class RecipeRegistry {
 		for (int i = 0; i < r; i++) {
 			list.add(new ItemStack(ModRegistry.fragment));
 		}
+		OreDictionary.registerOre("stickWood", Items.STICK);
+		Item L = Items.LAVA_BUCKET;
+		Item S = Items.NETHER_STAR;
+		String T = "stickWood";
 		if (ConfigFile.enableLava)
-			GameRegistry.addRecipe(new ItemStack(ModRegistry.lava_sword), " LS", "LSL", "TL ", 'L', Items.LAVA_BUCKET,
-					'S', Items.NETHER_STAR, 'T', Items.STICK);
-		if (ConfigFile.enableBlaze)
-			GameRegistry.addRecipe(new ItemStack(ModRegistry.blaze_sword), " LS", "LSL", "TL ", 'L', Items.BLAZE_ROD,
-					'S', Items.NETHER_STAR, 'T', Items.STICK);
-		CraftingManager.getInstance().addRecipe(new ShapelessRecipes(new ItemStack(Items.SKULL, 1, 1), list));
+			RecipeHelper.addShaped(ModRegistry.lava_sword, 3, 3, new Object[] { null, L, S, L, S, L, T, L, null });
+		if (ConfigFile.enableBlaze) {
+			L = Items.BLAZE_ROD;
+			RecipeHelper.addShaped(ModRegistry.blaze_sword, 3, 3, new Object[] { null, L, S, L, S, L, T, L, null });
+		}
+		RecipeHelper.addShapeless(new ItemStack(Items.SKULL, 1, 1), list);
 	}
 }
-
-/*
- * GameRegistry.addShapelessRecipe(new ItemStack(ModRegistry.itemseed, 2),
- * ModRegistry.itemessence, Items.APPLE, Items.WHEAT_SEEDS);
- * GameRegistry.addShapedRecipe(new ItemStack(ModRegistry.soilcreator), " L ",
- * "FSF", " L ", 'F', ModRegistry.itemseed, 'L', Items.EGG, 'S', Blocks.DIRT);
- * 
- */
