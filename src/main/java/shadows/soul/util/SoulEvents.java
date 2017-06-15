@@ -90,7 +90,7 @@ public class SoulEvents {
 			return;
 		if (event.getEntity().world.rand.nextInt(ConfigFile.shardDropChance) == 0) {
 			if (!event.getEntity().world.isRemote && event.getEntity() instanceof EntityWitherSkeleton
-					&& !(event.getSource() == DamageSource.field_191552_t)) {
+					&& !(event.getSource() == DamageSource.FIREWORKS)) {
 				List<EntityItem> drops = event.getDrops();
 				ItemStack stack = new ItemStack(Items.SKULL, 1, 1);
 				if (!SoulMethods.dropSearchFinder(drops, stack)) {
@@ -103,7 +103,7 @@ public class SoulEvents {
 
 	@SubscribeEvent
 	public void immolate(LivingDropsEvent event) {
-		if (!event.getEntity().world.isRemote && event.getSource() == DamageSource.field_191552_t) {
+		if (!event.getEntity().world.isRemote && event.getSource() == DamageSource.FIREWORKS) {
 			System.out.println(event.getEntity().toString());
 			List<EntityItem> drops = event.getDrops();
 			ItemStack stack = new ItemStack(Items.SKULL, 1, 1);
@@ -139,8 +139,8 @@ public class SoulEvents {
 			List<EntityItem> newDrops = new ArrayList<EntityItem>();
 			while (iterator.hasNext()) {
 				EntityItem item = iterator.next();
-				if (!(item.getEntityItem().getItem() == Items.STONE_SWORD
-						|| item.getEntityItem().getItem() == Items.BOW)) {
+				if (!(item.getItem().getItem() == Items.STONE_SWORD
+						|| item.getItem().getItem() == Items.BOW)) {
 					newDrops.add(item);
 				}
 			}

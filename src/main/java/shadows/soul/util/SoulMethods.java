@@ -40,8 +40,8 @@ public class SoulMethods {
 		Iterator<EntityItem> iterator = list.iterator();
 		while (iterator.hasNext()) {
 			EntityItem item = iterator.next();
-			if (item.getEntityItem().getItem() == stack.getItem()) {
-				if (item.getEntityItem().getMetadata() == stack.getMetadata()) {
+			if (item.getItem().getItem() == stack.getItem()) {
+				if (item.getItem().getMetadata() == stack.getMetadata()) {
 					// System.out.println("item is " +
 					// item.getEntityItem().toString() + " while target = " +
 					// stack.toString() + " result: true");
