@@ -12,7 +12,7 @@ import shadows.soul.proxy.CommonProxy;
 public class WitherFix {
 	public static final String MODID = "witherskelefix";
 	public static final String MODNAME = "Wither Skeleton Tweaks";
-	public static final String VERSION = "1.7.0";
+	public static final String VERSION = "2.1.1";
 
 	@SidedProxy(clientSide = "shadows.soul.proxy.ClientProxy", serverSide = "shadows.soul.proxy.CommonProxy")
 	public static CommonProxy proxy;

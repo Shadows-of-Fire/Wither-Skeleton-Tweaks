@@ -6,12 +6,13 @@ import java.util.List;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.oredict.OreDictionary;
 import shadows.soul.util.RecipeHelper;
 
 public class RecipeRegistry {
 
-	private static int r = Math.max(1, Math.min(ConfigFile.shardValue, 9));
+	private static int r = MathHelper.clamp(ConfigFile.shardValue, 1, 9);
 	private static List<ItemStack> list = new ArrayList<ItemStack>();
 
 	public static void init() {

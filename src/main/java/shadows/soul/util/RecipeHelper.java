@@ -1,5 +1,7 @@
 package shadows.soul.util;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -162,7 +164,9 @@ public class RecipeHelper {
 	}
 
 	public static ShapedRecipes genShaped(String group, ItemStack output, int l, int w, Object[] input) {
-		if (input[0] instanceof Object[])
+		if(input[0] instanceof List)
+			input = ((List<?>) input[0]).toArray();
+		else if (input[0] instanceof Object[])
 			input = (Object[]) input[0];
 		if (l * w != input.length)
 			throw new UnsupportedOperationException(
@@ -187,7 +191,9 @@ public class RecipeHelper {
 	}
 
 	public static NonNullList<Ingredient> createInput(Object[] input) {
-		if (input[0] instanceof Object[])
+		if(input[0] instanceof List)
+			input = ((List<?>) input[0]).toArray();
+		else if (input[0] instanceof Object[])
 			input = (Object[]) input[0];
 		NonNullList<Ingredient> inputL = NonNullList.create();
 		for (int i = 0; i < input.length; i++) {
@@ -202,7 +208,7 @@ public class RecipeHelper {
 				inputL.add(i, Ingredient.fromStacks(new ItemStack((Block) k)));
 			} else {
 				throw new UnsupportedOperationException(
-						"Attempted to add invalid shapeless recipe.  Complain to the author of  " + MODNAME);
+						"Attempted to add invalid shapeless recipe.  Complain to the author of " + MODNAME);
 			}
 		}
 		return inputL;
