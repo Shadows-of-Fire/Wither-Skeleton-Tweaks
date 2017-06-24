@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.monster.EntityBlaze;
@@ -16,6 +17,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
@@ -46,7 +48,10 @@ public class SoulEvents {
 					event.setCanceled(true);
 					entity.setDropItemsWhenDead(false);
 					entity.setDead();
-					for (int i = -1; i < tries; i++) {
+					EntityLiving k = new EntityWitherSkeleton(world);
+					k.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.BOW));
+					SoulMethods.spawnCreature(world, k, x, y, z);
+					for (int i = 0; i < tries; i++) {
 						SoulMethods.spawnCreature(world, new EntityWitherSkeleton(world), x, y, z);
 					}
 				}
