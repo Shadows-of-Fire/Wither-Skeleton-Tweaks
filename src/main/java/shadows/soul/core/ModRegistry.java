@@ -1,31 +1,28 @@
 package shadows.soul.core;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.registries.IForgeRegistry;
 import shadows.soul.common.ItemImmolationBlade;
 import shadows.soul.common.ItemWitherFragment;
 
 public class ModRegistry {
-	public static ItemWitherFragment fragment;
-	public static ItemImmolationBlade lava_sword;
-	public static ItemImmolationBlade blaze_sword;
+	public static final ItemWitherFragment FRAGMENT = new ItemWitherFragment();
+	public static final ItemImmolationBlade LAVA_SWORD = new ItemImmolationBlade("blade",
+			ToolMaterial.valueOf("immolation"));
+	public static final ItemImmolationBlade BLAZE_SWORD = new ItemImmolationBlade("blade2",
+			ToolMaterial.valueOf("immolation"));
 
-	public static void init() {
-		fragment = new ItemWitherFragment();
+	@SubscribeEvent
+	public void onItemRegistry(RegistryEvent.Register<Item> e) {
+		IForgeRegistry<Item> reg = e.getRegistry();
+		reg.register(FRAGMENT);
 		if (ConfigFile.enableLava)
-			lava_sword = new ItemImmolationBlade("blade", ToolMaterial.valueOf("immolation"));
+			reg.register(LAVA_SWORD);
 		if (ConfigFile.enableBlaze)
-			blaze_sword = new ItemImmolationBlade("blade2", ToolMaterial.valueOf("immolation"));
-	}
-
-	@SideOnly(Side.CLIENT)
-	public static void initModels() {
-		fragment.initModel();
-		if (ConfigFile.enableLava)
-			lava_sword.initModel();
-		if (ConfigFile.enableBlaze)
-			blaze_sword.initModel();
+			reg.register(BLAZE_SWORD);
 	}
 
 }

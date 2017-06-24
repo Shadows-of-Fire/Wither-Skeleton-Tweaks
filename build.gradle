@@ -10,40 +10,52 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 
-version = "1.12-2.1.1"
-group= "shadows.soul" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+version = "1.12-2.2.0"
+group= "shadows.soul"
 archivesBaseName = "Wither Skeleton Tweaks"
 
-sourceCompatibility = targetCompatibility = "1.8" // Need this here so eclipse task generates correctly.
+sourceCompatibility = targetCompatibility = "1.8"
 compileJava {
     sourceCompatibility = targetCompatibility = "1.8"
 }
 
 minecraft {
-    version = "1.12-14.21.0.2327"
+    version = "1.12-14.21.0.2349"
     runDir = "run"
-    mappings = "snapshot_20170614"
+    mappings = "snapshot_20170623"
+}
+
+repositories {
+    maven {
+        url "http://dvs1.progwml6.com/files/maven"
+    }
+    maven {
+        url "http://maven.epoxide.xyz"
+    }
+    maven {
+        url "http://maven.amadornes.com/"
+    }
+	maven {
+		url  "http://tehnut.info/maven"
+	}
 }
 
 dependencies {
     compile files('libs/')
+	deobfCompile "mezz.jei:jei_1.12:4.6.0.63:api"
+    //runtime "mezz.jei:jei_1.12:4.6.0.63"
+	deobfCompile "mcp.mobius.waila:Hwyla:1.8.18-B32_1.12:api"
+	runtime "mcp.mobius.waila:Hwyla:1.8.18-B32_1.12"
 }
 
 processResources
 {
-    // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
-
-    // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
-        // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-        
-    // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }

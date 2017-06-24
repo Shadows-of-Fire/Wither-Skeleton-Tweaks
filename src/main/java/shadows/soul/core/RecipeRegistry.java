@@ -17,17 +17,17 @@ public class RecipeRegistry {
 
 	public static void init() {
 		for (int i = 0; i < r; i++) {
-			list.add(new ItemStack(ModRegistry.fragment));
+			list.add(new ItemStack(ModRegistry.FRAGMENT));
 		}
 		OreDictionary.registerOre("stickWood", Items.STICK);
 		Item L = Items.LAVA_BUCKET;
 		Item S = Items.NETHER_STAR;
 		String T = "stickWood";
 		if (ConfigFile.enableLava)
-			RecipeHelper.addShaped(ModRegistry.lava_sword, 3, 3, new Object[] { null, L, S, L, S, L, T, L, null });
+			RecipeHelper.addShaped(ModRegistry.LAVA_SWORD, 3, 3, new Object[] { null, L, S, L, S, L, T, L, null });
 		if (ConfigFile.enableBlaze) {
 			L = Items.BLAZE_ROD;
-			RecipeHelper.addShaped(ModRegistry.blaze_sword, 3, 3, new Object[] { null, L, S, L, S, L, T, L, null });
+			RecipeHelper.addShaped(ModRegistry.BLAZE_SWORD, 3, 3, new Object[] { null, L, S, L, S, L, T, L, null });
 		}
 		RecipeHelper.addShapeless(new ItemStack(Items.SKULL, 1, 1), list);
 	}

@@ -95,7 +95,7 @@ public class SoulEvents {
 				ItemStack stack = new ItemStack(Items.SKULL, 1, 1);
 				if (!SoulMethods.dropSearchFinder(drops, stack)) {
 					event.getDrops().add(new EntityItem(event.getEntity().world, event.getEntity().posX,
-							event.getEntity().posY, event.getEntity().posZ, new ItemStack(ModRegistry.fragment)));
+							event.getEntity().posY, event.getEntity().posZ, new ItemStack(ModRegistry.FRAGMENT)));
 				}
 			}
 		}
@@ -139,8 +139,7 @@ public class SoulEvents {
 			List<EntityItem> newDrops = new ArrayList<EntityItem>();
 			while (iterator.hasNext()) {
 				EntityItem item = iterator.next();
-				if (!(item.getItem().getItem() == Items.STONE_SWORD
-						|| item.getItem().getItem() == Items.BOW)) {
+				if (!(item.getItem().getItem() == Items.STONE_SWORD || item.getItem().getItem() == Items.BOW)) {
 					newDrops.add(item);
 				}
 			}

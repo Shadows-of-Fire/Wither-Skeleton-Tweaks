@@ -8,7 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import shadows.soul.core.WitherFix;
@@ -23,7 +22,6 @@ public class ItemImmolationBlade extends ItemSword {
 		setRegistryName(name);
 		setUnlocalizedName(WitherFix.MODID + "." + name);
 		setCreativeTab(CreativeTabs.COMBAT);
-		GameRegistry.register(this);
 	}
 
 	@Override
