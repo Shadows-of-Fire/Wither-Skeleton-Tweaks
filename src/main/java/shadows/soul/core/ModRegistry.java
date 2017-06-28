@@ -26,9 +26,9 @@ public class ModRegistry {
 		if (ConfigFile.enableBlaze)
 			reg.register(BLAZE_SWORD);
 	}
-	
+
 	@SubscribeEvent
-	public void onRecipeRegistry(RegistryEvent.Register<IRecipe> e){
+	public void onRecipeRegistry(RegistryEvent.Register<IRecipe> e) {
 		RecipeRegistry.init();
 		e.getRegistry().registerAll(RecipeHelper.RECIPES.toArray(new IRecipe[0]));
 	}

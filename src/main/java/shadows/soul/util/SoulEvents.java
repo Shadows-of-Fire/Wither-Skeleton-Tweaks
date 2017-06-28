@@ -3,9 +3,9 @@ package shadows.soul.util;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.monster.EntityBlaze;
@@ -28,29 +28,29 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import shadows.soul.core.ConfigFile;
 import shadows.soul.core.ModRegistry;
 
-@Mod.EventBusSubscriber
 public class SoulEvents {
 
-	private static final int tries = Math.max(0, ConfigFile.extraWitherSkeletons);
-	private static final int allBiomesChance = Math.max(1, ConfigFile.allBiomesChance);
+	private final int tries = Math.max(0, ConfigFile.extraWitherSkeletons);
+	private final int allBiomesChance = Math.max(1, ConfigFile.allBiomesChance);
 
 	@SubscribeEvent
 	public void witherTransform(LivingSpawnEvent.SpecialSpawn event) {
 		if (event.getEntity() instanceof EntitySkeleton) {
+			Entity entity = event.getEntity();
+			World world = entity.world;
+			Random rand = world.rand;
 			if (!event.getEntity().world.isRemote) {
-				Entity entity = event.getEntity();
-				World world = entity.world;
-				double x = entity.posX;
-				double y = entity.posY;
-				double z = entity.posZ;
-				if (world.getBiome(new BlockPos(x, y, z)) == Biomes.HELL || (ConfigFile.allowAllBiomes
-						&& !event.getWorld().isDaytime() && event.getWorld().rand.nextInt(allBiomesChance) == 0)) {
-					event.setCanceled(true);
-					entity.setDropItemsWhenDead(false);
-					entity.setDead();
-					EntityLiving k = new EntityWitherSkeleton(world);
-					k.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.BOW));
+			double x = entity.posX;
+			double y = entity.posY;
+			double z = entity.posZ;
+			if (world.getBiome(new BlockPos(x, y, z)) == Biomes.HELL
+					|| (ConfigFile.allowAllBiomes && !event.getWorld().isDaytime() && rand.nextInt(allBiomesChance) == 0)) {
+				event.setCanceled(true);
+				entity.setDropItemsWhenDead(false);
+				entity.setDead();
+					EntityWitherSkeleton k = new EntityWitherSkeleton(world);
 					SoulMethods.spawnCreature(world, k, x, y, z);
+					k.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.BOW));
 					for (int i = 0; i < tries; i++) {
 						SoulMethods.spawnCreature(world, new EntityWitherSkeleton(world), x, y, z);
 					}
