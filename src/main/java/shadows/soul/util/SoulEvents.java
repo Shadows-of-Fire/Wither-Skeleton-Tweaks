@@ -22,7 +22,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import shadows.soul.core.ConfigFile;
@@ -40,14 +39,14 @@ public class SoulEvents {
 			World world = entity.world;
 			Random rand = world.rand;
 			if (!event.getEntity().world.isRemote) {
-			double x = entity.posX;
-			double y = entity.posY;
-			double z = entity.posZ;
-			if (world.getBiome(new BlockPos(x, y, z)) == Biomes.HELL
-					|| (ConfigFile.allowAllBiomes && !event.getWorld().isDaytime() && rand.nextInt(allBiomesChance) == 0)) {
-				event.setCanceled(true);
-				entity.setDropItemsWhenDead(false);
-				entity.setDead();
+				double x = entity.posX;
+				double y = entity.posY;
+				double z = entity.posZ;
+				if (world.getBiome(new BlockPos(x, y, z)) == Biomes.HELL || (ConfigFile.allowAllBiomes
+						&& !event.getWorld().isDaytime() && rand.nextInt(allBiomesChance) == 0)) {
+					event.setCanceled(true);
+					entity.setDropItemsWhenDead(false);
+					entity.setDead();
 					EntityWitherSkeleton k = new EntityWitherSkeleton(world);
 					SoulMethods.spawnCreature(world, k, x, y, z);
 					k.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.BOW));
