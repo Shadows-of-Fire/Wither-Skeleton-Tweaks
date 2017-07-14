@@ -1,4 +1,4 @@
-package shadows.soul.core;
+package shadows.wstweaks.core;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.oredict.OreDictionary;
-import shadows.soul.util.RecipeHelper;
+import shadows.wstweaks.util.RecipeHelper;
 
 public class RecipeRegistry {
 

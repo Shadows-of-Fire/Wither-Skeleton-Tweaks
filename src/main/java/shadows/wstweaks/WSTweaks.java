@@ -1,15 +1,15 @@
-package shadows.soul.core;
+package shadows.wstweaks;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import shadows.soul.proxy.CommonProxy;
+import shadows.wstweaks.proxy.CommonProxy;
 
-@Mod(modid = WitherFix.MODID, version = WitherFix.VERSION, name = WitherFix.MODNAME)
+@Mod(modid = WSTweaks.MODID, version = WSTweaks.VERSION, name = WSTweaks.MODNAME)
 
-public class WitherFix {
+public class WSTweaks {
 	public static final String MODID = "witherskelefix";
 	public static final String MODNAME = "Wither Skeleton Tweaks";
 	public static final String VERSION = "2.2.2";
@@ -18,7 +18,7 @@ public class WitherFix {
 	public static CommonProxy proxy;
 
 	@Mod.Instance
-	public static WitherFix instance;
+	public static WSTweaks instance;
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {

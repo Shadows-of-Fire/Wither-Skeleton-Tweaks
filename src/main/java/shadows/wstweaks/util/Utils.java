@@ -1,4 +1,4 @@
-package shadows.soul.util;
+package shadows.wstweaks.util;
 
 import java.util.Iterator;
 import java.util.List;
@@ -13,7 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class SoulMethods {
+public class Utils {
 
 	// Spawns an EntityLiving in world at position.
 	public static Entity spawnCreature(World worldIn, Entity entityIn, double x, double y, double z) {

@@ -1,8 +1,8 @@
-package shadows.soul.core;
+package shadows.wstweaks.core;
 
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
-import shadows.soul.proxy.CommonProxy;
+import shadows.wstweaks.proxy.CommonProxy;
 
 public class ConfigFile {
 

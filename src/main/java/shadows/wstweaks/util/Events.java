@@ -1,4 +1,4 @@
-package shadows.soul.util;
+package shadows.wstweaks.util;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,10 +24,10 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import shadows.soul.core.ConfigFile;
-import shadows.soul.core.ModRegistry;
+import shadows.wstweaks.core.ConfigFile;
+import shadows.wstweaks.core.ModRegistry;
 
-public class SoulEvents {
+public class Events {
 
 	private final int tries = Math.max(0, ConfigFile.extraWitherSkeletons);
 	private final int allBiomesChance = Math.max(1, ConfigFile.allBiomesChance);
@@ -48,10 +48,10 @@ public class SoulEvents {
 					entity.setDropItemsWhenDead(false);
 					entity.setDead();
 					EntityWitherSkeleton k = new EntityWitherSkeleton(world);
-					SoulMethods.spawnCreature(world, k, x, y, z);
+					Utils.spawnCreature(world, k, x, y, z);
 					k.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.BOW));
 					for (int i = 0; i < tries; i++) {
-						SoulMethods.spawnCreature(world, new EntityWitherSkeleton(world), x, y, z);
+						Utils.spawnCreature(world, new EntityWitherSkeleton(world), x, y, z);
 					}
 				}
 			}
@@ -69,7 +69,7 @@ public class SoulEvents {
 				double z = entity.posZ;
 				if (world.getBiome(new BlockPos(x, y, z)) == Biomes.HELL) {
 					for (int i = 0; i < tries; i++) {
-						SoulMethods.spawnCreature(world, new EntityWitherSkeleton(world), x, y, z);
+						Utils.spawnCreature(world, new EntityWitherSkeleton(world), x, y, z);
 					}
 				}
 			}
@@ -80,7 +80,7 @@ public class SoulEvents {
 				BlockPos pos = entity.getPosition().down();
 				if (pos != null && world.getBlockState(pos).getBlock() == Blocks.NETHER_BRICK) {
 					for (int i = -1; i < tries; i++) {
-						SoulMethods.spawnCreature(world, new EntityWitherSkeleton(world), entity.posX, entity.posY,
+						Utils.spawnCreature(world, new EntityWitherSkeleton(world), entity.posX, entity.posY,
 								entity.posZ);
 					}
 				}
@@ -97,7 +97,7 @@ public class SoulEvents {
 					&& !(event.getSource() == DamageSource.FIREWORKS)) {
 				List<EntityItem> drops = event.getDrops();
 				ItemStack stack = new ItemStack(Items.SKULL, 1, 1);
-				if (!SoulMethods.dropSearchFinder(drops, stack)) {
+				if (!Utils.dropSearchFinder(drops, stack)) {
 					event.getDrops().add(new EntityItem(event.getEntity().world, event.getEntity().posX,
 							event.getEntity().posY, event.getEntity().posZ, new ItemStack(ModRegistry.FRAGMENT)));
 				}
@@ -112,7 +112,7 @@ public class SoulEvents {
 			List<EntityItem> drops = event.getDrops();
 			ItemStack stack = new ItemStack(Items.SKULL, 1, 1);
 			if (event.getEntity() instanceof EntityWitherSkeleton) {
-				if (!SoulMethods.dropSearchFinder(drops, stack)) {
+				if (!Utils.dropSearchFinder(drops, stack)) {
 					event.getDrops().add(new EntityItem(event.getEntity().world, event.getEntity().posX,
 							event.getEntity().posY, event.getEntity().posZ, stack));
 				}

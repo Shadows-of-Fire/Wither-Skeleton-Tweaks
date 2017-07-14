@@ -1,4 +1,4 @@
-package shadows.soul.util;
+package shadows.wstweaks.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +13,13 @@ import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreIngredient;
-import shadows.soul.core.WitherFix;
+import shadows.wstweaks.WSTweaks;
 
 public class RecipeHelper {
 
 	private static int j = 0;
-	private static final String MODID = WitherFix.MODID;
-	private static final String MODNAME = WitherFix.MODNAME;
+	private static final String MODID = WSTweaks.MODID;
+	private static final String MODNAME = WSTweaks.MODNAME;
 	/*
 	 * This needs to be looped through and passed in a RegistryEvent.Register<IRecipe>, it should also be populated during that event.
 	 */

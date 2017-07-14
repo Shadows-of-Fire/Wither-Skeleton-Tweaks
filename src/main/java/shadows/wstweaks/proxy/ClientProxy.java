@@ -1,11 +1,11 @@
-package shadows.soul.proxy;
+package shadows.wstweaks.proxy;
 
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import shadows.soul.core.ConfigFile;
-import shadows.soul.core.ModRegistry;
+import shadows.wstweaks.core.ConfigFile;
+import shadows.wstweaks.core.ModRegistry;
 
 public class ClientProxy extends CommonProxy {
 

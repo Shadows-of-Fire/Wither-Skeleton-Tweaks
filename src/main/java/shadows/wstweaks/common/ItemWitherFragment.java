@@ -1,4 +1,4 @@
-package shadows.soul.common;
+package shadows.wstweaks.common;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -6,12 +6,12 @@ import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import shadows.soul.core.WitherFix;
+import shadows.wstweaks.WSTweaks;
 
 public class ItemWitherFragment extends Item {
 	public ItemWitherFragment() {
 		setRegistryName("fragment");
-		setUnlocalizedName(WitherFix.MODID + ".fragment");
+		setUnlocalizedName(WSTweaks.MODID + ".fragment");
 		setCreativeTab(CreativeTabs.MATERIALS);
 	}
 
