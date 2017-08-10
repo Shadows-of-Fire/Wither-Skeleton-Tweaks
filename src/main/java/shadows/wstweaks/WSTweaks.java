@@ -14,12 +14,12 @@ public class WSTweaks {
 	public static final String MODNAME = "Wither Skeleton Tweaks";
 	public static final String VERSION = "2.2.2";
 
-	@SidedProxy(clientSide = "shadows.soul.proxy.ClientProxy", serverSide = "shadows.soul.proxy.CommonProxy")
+	@SidedProxy(clientSide = "shadows.wstweaks.proxy.ClientProxy", serverSide = "shadows.wstweaks.proxy.CommonProxy")
 	public static CommonProxy proxy;
 
 	@Mod.Instance
 	public static WSTweaks instance;
-
+	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		proxy.preInit(event);
