@@ -42,8 +42,7 @@ public class Events {
 				double x = entity.posX;
 				double y = entity.posY;
 				double z = entity.posZ;
-				if (world.getBiome(new BlockPos(x, y, z)) == Biomes.HELL || (ConfigFile.allowAllBiomes
-						&& !event.getWorld().isDaytime() && rand.nextInt(allBiomesChance) == 0)) {
+				if (world.getBiome(new BlockPos(x, y, z)) == Biomes.HELL || (ConfigFile.allowAllBiomes && !event.getWorld().isDaytime() && rand.nextInt(allBiomesChance) == 0)) {
 					event.setCanceled(true);
 					entity.setDropItemsWhenDead(false);
 					entity.setDead();
@@ -60,7 +59,7 @@ public class Events {
 
 	@SubscribeEvent
 	public void skeleFixer(LivingSpawnEvent.CheckSpawn event) {
-		if (event.getEntity() instanceof EntityWitherSkeleton) {
+		if (event.getEntity().getClass() == EntityWitherSkeleton.class) {
 			if (!event.getEntity().world.isRemote) {
 				Entity entity = event.getEntity();
 				World world = entity.world;
@@ -80,8 +79,7 @@ public class Events {
 				BlockPos pos = entity.getPosition().down();
 				if (pos != null && world.getBlockState(pos).getBlock() == Blocks.NETHER_BRICK) {
 					for (int i = -1; i < tries; i++) {
-						Utils.spawnCreature(world, new EntityWitherSkeleton(world), entity.posX, entity.posY,
-								entity.posZ);
+						Utils.spawnCreature(world, new EntityWitherSkeleton(world), entity.posX, entity.posY, entity.posZ);
 					}
 				}
 			}
@@ -93,13 +91,11 @@ public class Events {
 		if (ConfigFile.shardDropChance <= 0)
 			return;
 		if (event.getEntity().world.rand.nextInt(ConfigFile.shardDropChance) == 0) {
-			if (!event.getEntity().world.isRemote && event.getEntity() instanceof EntityWitherSkeleton
-					&& !(event.getSource() == DamageSource.FIREWORKS)) {
+			if (!event.getEntity().world.isRemote && event.getEntity().getClass() == EntityWitherSkeleton.class && !(event.getSource() == DamageSource.FIREWORKS)) {
 				List<EntityItem> drops = event.getDrops();
 				ItemStack stack = new ItemStack(Items.SKULL, 1, 1);
 				if (!Utils.dropSearchFinder(drops, stack)) {
-					event.getDrops().add(new EntityItem(event.getEntity().world, event.getEntity().posX,
-							event.getEntity().posY, event.getEntity().posZ, new ItemStack(ModRegistry.FRAGMENT)));
+					event.getDrops().add(new EntityItem(event.getEntity().world, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, new ItemStack(ModRegistry.FRAGMENT)));
 				}
 			}
 		}
@@ -111,23 +107,19 @@ public class Events {
 			System.out.println(event.getEntity().toString());
 			List<EntityItem> drops = event.getDrops();
 			ItemStack stack = new ItemStack(Items.SKULL, 1, 1);
-			if (event.getEntity() instanceof EntityWitherSkeleton) {
+			if (event.getEntity().getClass() == EntityWitherSkeleton.class) {
 				if (!Utils.dropSearchFinder(drops, stack)) {
-					event.getDrops().add(new EntityItem(event.getEntity().world, event.getEntity().posX,
-							event.getEntity().posY, event.getEntity().posZ, stack));
+					event.getDrops().add(new EntityItem(event.getEntity().world, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, stack));
 				}
 			}
 			if (event.getEntity() instanceof EntitySkeleton) {
 				event.getDrops().clear();
-				event.getDrops().add(new EntityItem(event.getEntity().world, event.getEntity().posX,
-						event.getEntity().posY, event.getEntity().posZ, stack));
+				event.getDrops().add(new EntityItem(event.getEntity().world, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, stack));
 				if (event.getEntity().world.rand.nextBoolean()) {
-					event.getDrops().add(new EntityItem(event.getEntity().world, event.getEntity().posX,
-							event.getEntity().posY, event.getEntity().posZ, new ItemStack(Items.ARROW, 3)));
+					event.getDrops().add(new EntityItem(event.getEntity().world, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, new ItemStack(Items.ARROW, 3)));
 				}
 				if (event.getEntity().world.rand.nextBoolean()) {
-					event.getDrops().add(new EntityItem(event.getEntity().world, event.getEntity().posX,
-							event.getEntity().posY, event.getEntity().posZ, new ItemStack(Items.BONE, 2)));
+					event.getDrops().add(new EntityItem(event.getEntity().world, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, new ItemStack(Items.BONE, 2)));
 				}
 			}
 
@@ -136,8 +128,7 @@ public class Events {
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void delSwords(LivingDropsEvent event) {
-		if (ConfigFile.delSwords && !event.getEntity().world.isRemote
-				&& event.getEntity() instanceof AbstractSkeleton) {
+		if (ConfigFile.delSwords && !event.getEntity().world.isRemote && event.getEntity() instanceof AbstractSkeleton) {
 			List<EntityItem> drops = event.getDrops();
 			Iterator<EntityItem> iterator = drops.iterator();
 			List<EntityItem> newDrops = new ArrayList<EntityItem>();

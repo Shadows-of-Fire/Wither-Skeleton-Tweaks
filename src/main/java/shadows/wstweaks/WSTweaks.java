@@ -7,12 +7,12 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import shadows.wstweaks.proxy.CommonProxy;
 
-@Mod(modid = WSTweaks.MODID, version = WSTweaks.VERSION, name = WSTweaks.MODNAME)
+@Mod(modid = WSTweaks.MODID, version = WSTweaks.VERSION, name = WSTweaks.MODNAME, acceptedMinecraftVersions = "[1.12, 1.13)")
 
 public class WSTweaks {
 	public static final String MODID = "witherskelefix";
 	public static final String MODNAME = "Wither Skeleton Tweaks";
-	public static final String VERSION = "2.2.2";
+	public static final String VERSION = "2.2.3";
 
 	@SidedProxy(clientSide = "shadows.wstweaks.proxy.ClientProxy", serverSide = "shadows.wstweaks.proxy.CommonProxy")
 	public static CommonProxy proxy;
