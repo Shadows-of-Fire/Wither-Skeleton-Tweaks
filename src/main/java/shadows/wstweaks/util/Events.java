@@ -88,8 +88,7 @@ public class Events {
 
 	@SubscribeEvent
 	public void addFrags(LivingDropsEvent event) {
-		if (ConfigFile.shardDropChance <= 0)
-			return;
+		if (ConfigFile.shardDropChance <= 0) return;
 		if (event.getEntity().world.rand.nextInt(ConfigFile.shardDropChance) == 0) {
 			if (!event.getEntity().world.isRemote && event.getEntity().getClass() == EntityWitherSkeleton.class && !(event.getSource() == DamageSource.FIREWORKS)) {
 				List<EntityItem> drops = event.getDrops();

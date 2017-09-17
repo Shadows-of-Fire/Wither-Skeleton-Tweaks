@@ -18,9 +18,7 @@ public class ClientProxy extends CommonProxy {
 	@SubscribeEvent
 	public void onModelRegistry(ModelRegistryEvent e) {
 		ModRegistry.FRAGMENT.initModel();
-		if (ConfigFile.enableLava)
-			ModRegistry.LAVA_SWORD.initModel();
-		if (ConfigFile.enableBlaze)
-			ModRegistry.BLAZE_SWORD.initModel();
+		if (ConfigFile.enableLava) ModRegistry.LAVA_SWORD.initModel();
+		if (ConfigFile.enableBlaze) ModRegistry.BLAZE_SWORD.initModel();
 	}
 }

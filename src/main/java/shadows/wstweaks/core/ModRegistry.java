@@ -12,19 +12,15 @@ import shadows.wstweaks.util.RecipeHelper;
 
 public class ModRegistry {
 	public static final ItemWitherFragment FRAGMENT = new ItemWitherFragment();
-	public static final ItemImmolationBlade LAVA_SWORD = new ItemImmolationBlade("blade",
-			ToolMaterial.valueOf("immolation"));
-	public static final ItemImmolationBlade BLAZE_SWORD = new ItemImmolationBlade("blade2",
-			ToolMaterial.valueOf("immolation"));
+	public static final ItemImmolationBlade LAVA_SWORD = new ItemImmolationBlade("blade", ToolMaterial.valueOf("immolation"));
+	public static final ItemImmolationBlade BLAZE_SWORD = new ItemImmolationBlade("blade2", ToolMaterial.valueOf("immolation"));
 
 	@SubscribeEvent
 	public void onItemRegistry(RegistryEvent.Register<Item> e) {
 		IForgeRegistry<Item> reg = e.getRegistry();
 		reg.register(FRAGMENT);
-		if (ConfigFile.enableLava)
-			reg.register(LAVA_SWORD);
-		if (ConfigFile.enableBlaze)
-			reg.register(BLAZE_SWORD);
+		if (ConfigFile.enableLava) reg.register(LAVA_SWORD);
+		if (ConfigFile.enableBlaze) reg.register(BLAZE_SWORD);
 	}
 
 	@SubscribeEvent

@@ -19,7 +19,7 @@ public class WSTweaks {
 
 	@Mod.Instance
 	public static WSTweaks instance;
-	
+
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		proxy.preInit(event);
