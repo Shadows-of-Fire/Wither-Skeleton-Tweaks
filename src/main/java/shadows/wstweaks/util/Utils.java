@@ -5,8 +5,6 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -19,12 +17,12 @@ public class Utils {
 	public static Entity spawnCreature(World worldIn, Entity entityIn, double x, double y, double z) {
 		Entity entity = entityIn;
 
-		if (entity instanceof EntityLivingBase) {
+		if (entity instanceof EntityLiving) {
 			EntityLiving entityliving = (EntityLiving) entity;
 			entity.setLocationAndAngles(x, y, z, MathHelper.wrapDegrees(worldIn.rand.nextFloat() * 360.0F), 0.0F);
 			entityliving.rotationYawHead = entityliving.rotationYaw;
 			entityliving.renderYawOffset = entityliving.rotationYaw;
-			entityliving.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(entityliving)), (IEntityLivingData) null);
+			entityliving.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(entityliving)), null);
 			worldIn.spawnEntity(entity);
 			entityliving.playLivingSound();
 

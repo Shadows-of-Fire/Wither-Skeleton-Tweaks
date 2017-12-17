@@ -5,10 +5,9 @@ import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.registries.IForgeRegistry;
+import shadows.wstweaks.WSTweaks;
 import shadows.wstweaks.common.ItemImmolationBlade;
 import shadows.wstweaks.common.ItemWitherFragment;
-import shadows.wstweaks.util.RecipeHelper;
 
 public class ModRegistry {
 	public static final ItemWitherFragment FRAGMENT = new ItemWitherFragment();
@@ -17,16 +16,13 @@ public class ModRegistry {
 
 	@SubscribeEvent
 	public void onItemRegistry(RegistryEvent.Register<Item> e) {
-		IForgeRegistry<Item> reg = e.getRegistry();
-		reg.register(FRAGMENT);
-		if (ConfigFile.enableLava) reg.register(LAVA_SWORD);
-		if (ConfigFile.enableBlaze) reg.register(BLAZE_SWORD);
+		e.getRegistry().registerAll(WSTweaks.INFO.getItemList().toArray(new Item[3]));
 	}
-
+	
 	@SubscribeEvent
 	public void onRecipeRegistry(RegistryEvent.Register<IRecipe> e) {
 		RecipeRegistry.init();
-		e.getRegistry().registerAll(RecipeHelper.RECIPES.toArray(new IRecipe[0]));
+		e.getRegistry().registerAll(WSTweaks.INFO.getRecipeList().toArray(new IRecipe[0]));
 	}
 
 }

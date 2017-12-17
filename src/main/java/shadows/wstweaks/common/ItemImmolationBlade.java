@@ -1,38 +1,27 @@
 package shadows.wstweaks.common;
 
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.DamageSource;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import shadows.placebo.client.IHasModel;
 import shadows.wstweaks.WSTweaks;
 
-public class ItemImmolationBlade extends ItemSword {
+public class ItemImmolationBlade extends ItemSword implements IHasModel {
 
-	private ToolMaterial material;
-
-	public ItemImmolationBlade(String name, ToolMaterial material_) {
-		super(material_);
-		material = material_;
+	public ItemImmolationBlade(String name, ToolMaterial material) {
+		super(material);
 		setRegistryName(name);
 		setUnlocalizedName(WSTweaks.MODID + "." + name);
 		setCreativeTab(CreativeTabs.COMBAT);
-	}
-
-	@Override
-	public float getDamageVsEntity() {
-		return this.material.getDamageVsEntity();
+		WSTweaks.INFO.getItemList().add(this);
 	}
 
 	@Override
 	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
 		stack.damageItem(1, attacker);
-
 		if (target instanceof AbstractSkeleton) {
 			target.setHealth(1);
 			target.attackEntityFrom(DamageSource.FIREWORKS, 150);
@@ -44,11 +33,6 @@ public class ItemImmolationBlade extends ItemSword {
 		}
 		target.setFire(150);
 		return true;
-	}
-
-	@SideOnly(Side.CLIENT)
-	public void initModel() {
-		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
 	}
 
 }
