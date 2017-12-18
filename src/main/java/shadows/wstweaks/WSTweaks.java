@@ -15,7 +15,7 @@ import shadows.wstweaks.core.ModRegistry;
 import shadows.wstweaks.proxy.CommonProxy;
 import shadows.wstweaks.util.Events;
 
-@Mod(modid = WSTweaks.MODID, version = WSTweaks.VERSION, name = WSTweaks.MODNAME, acceptedMinecraftVersions = "[1.12, 1.13)", dependencies = "required-after:placebo")
+@Mod(modid = WSTweaks.MODID, version = WSTweaks.VERSION, name = WSTweaks.MODNAME, acceptedMinecraftVersions = "[1.12, 1.13)", dependencies = "required-after:placebo@[1.1.0,)")
 
 public class WSTweaks {
 	public static final String MODID = "witherskelefix";
