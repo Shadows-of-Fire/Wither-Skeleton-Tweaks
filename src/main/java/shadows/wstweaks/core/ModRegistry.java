@@ -18,7 +18,7 @@ public class ModRegistry {
 	public void onItemRegistry(RegistryEvent.Register<Item> e) {
 		e.getRegistry().registerAll(WSTweaks.INFO.getItemList().toArray(new Item[3]));
 	}
-	
+
 	@SubscribeEvent
 	public void onRecipeRegistry(RegistryEvent.Register<IRecipe> e) {
 		RecipeRegistry.init();

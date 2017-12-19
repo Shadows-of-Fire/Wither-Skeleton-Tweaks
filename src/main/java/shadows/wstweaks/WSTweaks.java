@@ -26,9 +26,9 @@ public class WSTweaks {
 	public static CommonProxy proxy;
 
 	public static Configuration config;
-	
+
 	public static final RegistryInformation INFO = new RegistryInformation(MODID, null);
-	
+
 	public static final RecipeHelper HELPER = new RecipeHelper(MODID, MODNAME, INFO.getRecipeList());
 
 	@Mod.EventHandler

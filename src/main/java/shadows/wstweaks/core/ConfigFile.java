@@ -5,7 +5,7 @@ import net.minecraftforge.common.config.Configuration;
 public class ConfigFile {
 
 	public static int shardValue = 9;
-	public static boolean enableLava = true; 
+	public static boolean enableLava = true;
 	public static boolean enableBlaze = true;
 	public static int shardDropChance = 1;
 	public static int extraWitherSkeletons = 0;
