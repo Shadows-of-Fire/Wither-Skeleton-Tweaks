@@ -77,7 +77,7 @@ public class Events {
 				World world = event.getWorld();
 				Entity entity = event.getEntity();
 				BlockPos pos = entity.getPosition().down();
-				if (pos != null && world.getBlockState(pos).getBlock() == Blocks.NETHER_BRICK) {
+				if (world.getBlockState(pos).getBlock() == Blocks.NETHER_BRICK) {
 					for (int i = -1; i < tries; i++) {
 						Utils.spawnCreature(world, new EntityWitherSkeleton(world), entity.posX, entity.posY, entity.posZ);
 					}
@@ -103,7 +103,6 @@ public class Events {
 	@SubscribeEvent
 	public void immolate(LivingDropsEvent event) {
 		if (!event.getEntity().world.isRemote && event.getSource() == DamageSource.FIREWORKS) {
-			System.out.println(event.getEntity().toString());
 			List<EntityItem> drops = event.getDrops();
 			ItemStack stack = new ItemStack(Items.SKULL, 1, 1);
 			if (event.getEntity().getClass() == EntityWitherSkeleton.class) {

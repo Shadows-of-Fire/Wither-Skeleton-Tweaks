@@ -1,5 +1,7 @@
 package shadows.wstweaks;
 
+import java.io.File;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.EnumHelper;
@@ -33,7 +35,7 @@ public class WSTweaks {
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		config = new Configuration(event.getSuggestedConfigurationFile());
+		config = new Configuration(new File(event.getModConfigurationDirectory(), "wstweaks.cfg"));
 		ConfigFile.syncConfig(config);
 		EnumHelper.addToolMaterial("immolation", 9, 4096, 0.6f, 12f, 72);
 		MinecraftForge.EVENT_BUS.register(new ModRegistry());
