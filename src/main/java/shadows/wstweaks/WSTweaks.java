@@ -22,7 +22,7 @@ import shadows.wstweaks.util.Events;
 public class WSTweaks {
 	public static final String MODID = "witherskelefix";
 	public static final String MODNAME = "Wither Skeleton Tweaks";
-	public static final String VERSION = "2.3.0";
+	public static final String VERSION = "2.3.1";
 
 	@SidedProxy(clientSide = "shadows.wstweaks.proxy.ClientProxy", serverSide = "shadows.wstweaks.proxy.CommonProxy")
 	public static CommonProxy proxy;
