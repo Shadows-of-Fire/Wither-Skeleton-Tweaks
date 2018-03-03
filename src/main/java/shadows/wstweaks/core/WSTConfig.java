@@ -1,8 +1,9 @@
 package shadows.wstweaks.core;
 
 import net.minecraftforge.common.config.Configuration;
+import shadows.wstweaks.WitherSkeletonTweaks;
 
-public class ConfigFile {
+public class WSTConfig {
 
 	public static int shardValue = 9;
 	public static boolean enableLava = true;
@@ -14,7 +15,9 @@ public class ConfigFile {
 	public static boolean delSwords = true;
 	public static int allBiomesChance = 1;
 
-	public static void syncConfig(Configuration config) {
+	public static void syncConfig() {
+
+		Configuration config = WitherSkeletonTweaks.CONFIG;
 
 		config.load();
 

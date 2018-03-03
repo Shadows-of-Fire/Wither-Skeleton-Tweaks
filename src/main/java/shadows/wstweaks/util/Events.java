@@ -24,13 +24,18 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import shadows.wstweaks.core.ConfigFile;
-import shadows.wstweaks.core.ModRegistry;
+import shadows.wstweaks.core.WSTConfig;
+import shadows.wstweaks.core.WSTRegistry;
 
 public class Events {
 
-	private final int tries = Math.max(0, ConfigFile.extraWitherSkeletons);
-	private final int allBiomesChance = Math.max(1, ConfigFile.allBiomesChance);
+	private final int tries;
+	private final int allBiomesChance;
+	
+	public Events(int tries, int allBiomesChance) {
+		this.tries = tries;
+		this.allBiomesChance = allBiomesChance;
+	}
 
 	@SubscribeEvent
 	public void witherTransform(LivingSpawnEvent.SpecialSpawn event) {
@@ -42,15 +47,18 @@ public class Events {
 				double x = entity.posX;
 				double y = entity.posY;
 				double z = entity.posZ;
-				if (world.getBiome(new BlockPos(x, y, z)) == Biomes.HELL || (ConfigFile.allowAllBiomes && !event.getWorld().isDaytime() && rand.nextInt(allBiomesChance) == 0)) {
+				if (world.getBiome(new BlockPos(x, y, z)) == Biomes.HELL || (WSTConfig.allowAllBiomes && !event.getWorld().isDaytime() && rand.nextInt(allBiomesChance) == 0)) {
 					event.setCanceled(true);
 					entity.setDropItemsWhenDead(false);
 					entity.setDead();
 					EntityWitherSkeleton k = new EntityWitherSkeleton(world);
-					Utils.spawnCreature(world, k, x, y, z);
+					k.setLocationAndAngles(x, y, z, 0, 0);
+					world.spawnEntity(k);
 					k.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.BOW));
 					for (int i = 0; i < tries; i++) {
-						Utils.spawnCreature(world, new EntityWitherSkeleton(world), x, y, z);
+						EntityWitherSkeleton a = new EntityWitherSkeleton(world);
+						a.setLocationAndAngles(x, y, z, 0, 0);
+						world.spawnEntity(a);
 					}
 				}
 			}
@@ -68,18 +76,22 @@ public class Events {
 				double z = entity.posZ;
 				if (world.getBiome(new BlockPos(x, y, z)) == Biomes.HELL) {
 					for (int i = 0; i < tries; i++) {
-						Utils.spawnCreature(world, new EntityWitherSkeleton(world), x, y, z);
+						EntityWitherSkeleton a = new EntityWitherSkeleton(world);
+						a.setLocationAndAngles(x, y, z, 0, 0);
+						world.spawnEntity(a);
 					}
 				}
 			}
 		} else if (event.getEntity() instanceof EntityBlaze || event.getEntity() instanceof EntityPigZombie) {
-			if (ConfigFile.extraSpawns) {
+			if (WSTConfig.extraSpawns) {
 				World world = event.getWorld();
 				Entity entity = event.getEntity();
 				BlockPos pos = entity.getPosition().down();
 				if (world.getBlockState(pos).getBlock() == Blocks.NETHER_BRICK) {
 					for (int i = -1; i < tries; i++) {
-						Utils.spawnCreature(world, new EntityWitherSkeleton(world), entity.posX, entity.posY, entity.posZ);
+						EntityWitherSkeleton a = new EntityWitherSkeleton(world);
+						a.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, 0, 0);
+						world.spawnEntity(a);
 					}
 				}
 			}
@@ -88,13 +100,13 @@ public class Events {
 
 	@SubscribeEvent
 	public void addFrags(LivingDropsEvent event) {
-		if (ConfigFile.shardDropChance <= 0) return;
-		if (event.getEntity().world.rand.nextInt(ConfigFile.shardDropChance) == 0) {
+		if (WSTConfig.shardDropChance <= 0) return;
+		if (event.getEntity().world.rand.nextInt(WSTConfig.shardDropChance) == 0) {
 			if (!event.getEntity().world.isRemote && event.getEntity().getClass() == EntityWitherSkeleton.class && !(event.getSource() == DamageSource.FIREWORKS)) {
 				List<EntityItem> drops = event.getDrops();
 				ItemStack stack = new ItemStack(Items.SKULL, 1, 1);
-				if (!Utils.dropSearchFinder(drops, stack)) {
-					event.getDrops().add(new EntityItem(event.getEntity().world, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, new ItemStack(ModRegistry.FRAGMENT)));
+				if (!isStackInList(drops, stack)) {
+					event.getDrops().add(new EntityItem(event.getEntity().world, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, new ItemStack(WSTRegistry.FRAGMENT)));
 				}
 			}
 		}
@@ -106,7 +118,7 @@ public class Events {
 			List<EntityItem> drops = event.getDrops();
 			ItemStack stack = new ItemStack(Items.SKULL, 1, 1);
 			if (event.getEntity().getClass() == EntityWitherSkeleton.class) {
-				if (!Utils.dropSearchFinder(drops, stack)) {
+				if (!isStackInList(drops, stack)) {
 					event.getDrops().add(new EntityItem(event.getEntity().world, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, stack));
 				}
 			}
@@ -126,7 +138,7 @@ public class Events {
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void delSwords(LivingDropsEvent event) {
-		if (ConfigFile.delSwords && !event.getEntity().world.isRemote && event.getEntity() instanceof AbstractSkeleton) {
+		if (WSTConfig.delSwords && !event.getEntity().world.isRemote && event.getEntity() instanceof AbstractSkeleton) {
 			List<EntityItem> drops = event.getDrops();
 			Iterator<EntityItem> iterator = drops.iterator();
 			List<EntityItem> newDrops = new ArrayList<EntityItem>();
@@ -141,6 +153,14 @@ public class Events {
 				event.getDrops().add(thing);
 			}
 		}
+	}
+
+	public static boolean isStackInList(List<EntityItem> list, ItemStack stack) {
+		for (EntityItem i : list) {
+			ItemStack iStack = i.getItem();
+			if (iStack.isItemEqual(stack)) return true;
+		}
+		return false;
 	}
 
 }

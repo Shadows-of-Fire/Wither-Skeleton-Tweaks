@@ -7,16 +7,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.DamageSource;
 import shadows.placebo.client.IHasModel;
-import shadows.wstweaks.WSTweaks;
+import shadows.wstweaks.WitherSkeletonTweaks;
 
 public class ItemImmolationBlade extends ItemSword implements IHasModel {
 
 	public ItemImmolationBlade(String name, ToolMaterial material) {
 		super(material);
 		setRegistryName(name);
-		setUnlocalizedName(WSTweaks.MODID + "." + name);
+		setUnlocalizedName(WitherSkeletonTweaks.MODID + "." + name);
 		setCreativeTab(CreativeTabs.COMBAT);
-		WSTweaks.INFO.getItemList().add(this);
+		WitherSkeletonTweaks.INFO.getItemList().add(this);
 	}
 
 	@Override

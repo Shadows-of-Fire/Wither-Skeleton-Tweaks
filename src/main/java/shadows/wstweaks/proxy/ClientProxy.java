@@ -4,8 +4,8 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import shadows.wstweaks.core.ConfigFile;
-import shadows.wstweaks.core.ModRegistry;
+import shadows.wstweaks.core.WSTConfig;
+import shadows.wstweaks.core.WSTRegistry;
 
 public class ClientProxy extends CommonProxy {
 
@@ -17,8 +17,8 @@ public class ClientProxy extends CommonProxy {
 
 	@SubscribeEvent
 	public void onModelRegistry(ModelRegistryEvent e) {
-		ModRegistry.FRAGMENT.initModels(e);
-		if (ConfigFile.enableLava) ModRegistry.LAVA_SWORD.initModels(e);
-		if (ConfigFile.enableBlaze) ModRegistry.BLAZE_SWORD.initModels(e);
+		WSTRegistry.FRAGMENT.initModels(e);
+		if (WSTConfig.enableLava) WSTRegistry.LAVA_SWORD.initModels(e);
+		if (WSTConfig.enableBlaze) WSTRegistry.BLAZE_SWORD.initModels(e);
 	}
 }
