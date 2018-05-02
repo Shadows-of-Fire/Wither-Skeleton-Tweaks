@@ -21,11 +21,14 @@ import shadows.wstweaks.util.Events;
 @Mod(modid = WitherSkeletonTweaks.MODID, version = WitherSkeletonTweaks.VERSION, name = WitherSkeletonTweaks.MODNAME, acceptedMinecraftVersions = "[1.12, 1.13)", dependencies = "required-after:placebo@[1.3.0,)")
 
 public class WitherSkeletonTweaks {
+
 	public static final String MODID = "witherskelefix";
 	public static final String MODNAME = "Wither Skeleton Tweaks";
-	public static final String VERSION = "2.5.0";
+	public static final String VERSION = "2.6.0";
+
 	@SidedProxy(clientSide = "shadows.wstweaks.proxy.ClientProxy", serverSide = "shadows.wstweaks.proxy.CommonProxy")
 	public static CommonProxy PROXY;
+
 	public static Configuration CONFIG;
 	public static final RegistryInformationV2 INFO = new RegistryInformationV2(MODID, null);
 	public static final RecipeHelper HELPER = new RecipeHelper(MODID, MODNAME, INFO.getRecipeList());
@@ -37,7 +40,7 @@ public class WitherSkeletonTweaks {
 		IMMOLATION.setRepairItem(new ItemStack(Items.NETHER_STAR));
 		WSTConfig.syncConfig();
 		MinecraftForge.EVENT_BUS.register(new WSTRegistry());
-		MinecraftForge.EVENT_BUS.register(new Events(WSTConfig.extraWitherSkeletons, WSTConfig.allBiomesChance));
+		MinecraftForge.EVENT_BUS.register(new Events());
 		PROXY.preInit(event);
 	}
 

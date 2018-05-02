@@ -14,6 +14,7 @@ public class WSTConfig {
 	public static boolean allowAllBiomes = false;
 	public static boolean delSwords = true;
 	public static int allBiomesChance = 1;
+	public static boolean giveBows = true;
 
 	public static void syncConfig() {
 
@@ -30,7 +31,8 @@ public class WSTConfig {
 		allowAllBiomes = config.getBoolean("All Biomes", Configuration.CATEGORY_GENERAL, false, "If ALL skeletons in any Biome are turned into Wither Skeletons.");
 		allBiomesChance = config.getInt("All Biomes Chance", Configuration.CATEGORY_GENERAL, 1, 1, Integer.MAX_VALUE, "The 1/n chance for (if \"All Biomes\" is true) a skeleton in a non-Hell biome to be a Wither Skeleton");
 		delSwords = config.getBoolean("Delete Stone Swords", Configuration.CATEGORY_GENERAL, true, "Whether or not to remove stone swords from wither skeleton drops.");
-
+		giveBows = config.getBoolean("Give Bows", Configuration.CATEGORY_GENERAL, true, "If converted wither skeletons are given bows.");
+		
 		if (config.hasChanged()) config.save();
 
 	}
