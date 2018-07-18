@@ -106,9 +106,7 @@ public class Events {
 				if (!isStackInList(drops, stack)) {
 					event.getDrops().add(newEntity(event.getEntity(), stack));
 				}
-			}
-
-			else if (event.getEntity() instanceof EntitySkeleton) {
+			} else if (event.getEntity() instanceof AbstractSkeleton) {
 				ItemStack stack = new ItemStack(Items.SKULL);
 				EntityItem toRemove = null;
 
