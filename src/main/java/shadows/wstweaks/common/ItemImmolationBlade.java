@@ -14,7 +14,7 @@ public class ItemImmolationBlade extends ItemSword implements IHasModel {
 	public ItemImmolationBlade(String name, ToolMaterial material) {
 		super(material);
 		setRegistryName(name);
-		setUnlocalizedName(WitherSkeletonTweaks.MODID + "." + name);
+		setTranslationKey(WitherSkeletonTweaks.MODID + "." + name);
 		setCreativeTab(CreativeTabs.COMBAT);
 		WitherSkeletonTweaks.INFO.getItemList().add(this);
 	}
