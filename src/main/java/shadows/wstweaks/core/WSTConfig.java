@@ -15,6 +15,7 @@ public class WSTConfig {
 	public static boolean delSwords = true;
 	public static int allBiomesChance = 1;
 	public static boolean giveBows = true;
+	public static float immolationDmg = 12f;
 
 	public static void syncConfig() {
 
@@ -32,7 +33,8 @@ public class WSTConfig {
 		allBiomesChance = config.getInt("All Biomes Chance", Configuration.CATEGORY_GENERAL, 1, 1, Integer.MAX_VALUE, "The 1/n chance for (if \"All Biomes\" is true) a skeleton in a non-Hell biome to be a Wither Skeleton");
 		delSwords = config.getBoolean("Delete Stone Swords", Configuration.CATEGORY_GENERAL, true, "Whether or not to remove stone swords from wither skeleton drops.");
 		giveBows = config.getBoolean("Give Bows", Configuration.CATEGORY_GENERAL, true, "If converted wither skeletons are given bows.");
-
+		immolationDmg = config.getFloat("Immolation Damage", Configuration.CATEGORY_GENERAL, immolationDmg, 1f, 1500f, "The damage of the immolation blade.  The actual value will be higher than this.");
+		
 		if (config.hasChanged()) config.save();
 
 	}

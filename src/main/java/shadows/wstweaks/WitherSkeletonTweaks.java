@@ -2,9 +2,6 @@ package shadows.wstweaks;
 
 import java.io.File;
 
-import net.minecraft.init.Items;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.EnumHelper;
@@ -24,7 +21,7 @@ public class WitherSkeletonTweaks {
 
 	public static final String MODID = "witherskelefix";
 	public static final String MODNAME = "Wither Skeleton Tweaks";
-	public static final String VERSION = "2.6.1";
+	public static final String VERSION = "2.6.2";
 
 	@SidedProxy(clientSide = "shadows.wstweaks.proxy.ClientProxy", serverSide = "shadows.wstweaks.proxy.CommonProxy")
 	public static CommonProxy PROXY;
@@ -32,13 +29,12 @@ public class WitherSkeletonTweaks {
 	public static Configuration CONFIG;
 	public static final RegistryInformationV2 INFO = new RegistryInformationV2(MODID, null);
 	public static final RecipeHelper HELPER = new RecipeHelper(MODID, MODNAME, INFO.getRecipeList());
-	public static final ToolMaterial IMMOLATION = EnumHelper.addToolMaterial("immolation", 9, 4096, 0.6f, 12f, 72);
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		CONFIG = new Configuration(new File(event.getModConfigurationDirectory(), "wither_skeleton_tweaks.cfg"));
-		IMMOLATION.setRepairItem(new ItemStack(Items.NETHER_STAR));
 		WSTConfig.syncConfig();
+		EnumHelper.addToolMaterial("immolation", 9, 4096, 0.6f, WSTConfig.immolationDmg, 72);
 		MinecraftForge.EVENT_BUS.register(new WSTRegistry());
 		MinecraftForge.EVENT_BUS.register(new Events());
 		PROXY.preInit(event);

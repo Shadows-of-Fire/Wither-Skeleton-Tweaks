@@ -3,6 +3,7 @@ package shadows.wstweaks.core;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
@@ -13,9 +14,12 @@ import shadows.wstweaks.common.ItemImmolationBlade;
 import shadows.wstweaks.common.ItemWitherFragment;
 
 public class WSTRegistry {
+
+	public static final ToolMaterial IMMOLATION = ToolMaterial.valueOf("immolation");
+
 	public static final ItemWitherFragment FRAGMENT = new ItemWitherFragment();
-	public static final ItemImmolationBlade LAVA_SWORD = new ItemImmolationBlade("blade", WitherSkeletonTweaks.IMMOLATION);
-	public static final ItemImmolationBlade BLAZE_SWORD = new ItemImmolationBlade("blade2", WitherSkeletonTweaks.IMMOLATION);
+	public static final ItemImmolationBlade LAVA_SWORD = new ItemImmolationBlade("blade", IMMOLATION);
+	public static final ItemImmolationBlade BLAZE_SWORD = new ItemImmolationBlade("blade2", IMMOLATION);
 
 	@SubscribeEvent
 	public void onItemRegistry(RegistryEvent.Register<Item> e) {
@@ -34,6 +38,7 @@ public class WSTRegistry {
 		}
 		WitherSkeletonTweaks.HELPER.addShapeless(new ItemStack(Items.SKULL, 1, 1), NonNullList.withSize(WSTConfig.shardValue, Ingredient.fromItem(FRAGMENT)));
 		WitherSkeletonTweaks.INFO.getRecipeList().register(e.getRegistry());
+		IMMOLATION.setRepairItem(new ItemStack(Items.NETHER_STAR));
 	}
 
 }
