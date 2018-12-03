@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "1.12.2-2.6.2"
 group= "shadows.wstweaks"
-archivesBaseName = "Wither Skeleton Tweaks"
+archivesBaseName = "WitherSkeletonTweaks"
 
 sourceCompatibility = targetCompatibility = "1.8"
 compileJava {
