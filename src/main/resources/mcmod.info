@@ -3,19 +3,14 @@
   "modid": "witherskelefix",
   "name": "Wither Skeleton Tweaks",
   "description": "Fixing Wither Skeletons",
-  "version": "2.2.3",
-  "mcversion": "1.12.1",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authors": [
-    "Shadows_of_Fire"
-  ],
+  "authorList": ["Shadows_of_Fire"],
   "credits": "",
   "logoFile": "",
-  "screenshots": [
-  ],
-  "parent":"",
-  "dependencies": [
-  ]
+  "screenshots": [],
+  "dependencies": []
 }
 ]
