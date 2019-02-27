@@ -23,9 +23,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import shadows.wstweaks.WSTRegistry;
 import shadows.wstweaks.common.ItemImmolationBlade;
 import shadows.wstweaks.core.WSTConfig;
-import shadows.wstweaks.core.WSTRegistry;
 
 public class Events {
 
