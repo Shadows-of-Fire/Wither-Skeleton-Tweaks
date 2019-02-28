@@ -8,8 +8,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import shadows.placebo.util.PlaceboUtil;
 import shadows.placebo.util.RecipeHelper;
-import shadows.wstweaks.common.ItemImmolationBlade;
-import shadows.wstweaks.core.WSTConfig;
+import shadows.wstweaks.item.ItemImmolationBlade;
 
 @ObjectHolder(WitherSkeletonTweaks.MODID)
 public class WSTRegistry extends RecipeHelper {

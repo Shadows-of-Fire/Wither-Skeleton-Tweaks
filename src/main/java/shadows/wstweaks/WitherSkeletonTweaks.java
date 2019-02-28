@@ -11,14 +11,12 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import shadows.wstweaks.core.WSTConfig;
-import shadows.wstweaks.util.Events;
 
 @Mod(modid = WitherSkeletonTweaks.MODID, version = WitherSkeletonTweaks.VERSION, name = WitherSkeletonTweaks.MODNAME, dependencies = "required-after:placebo@[2.0.0,)")
 
 public class WitherSkeletonTweaks {
 
-	public static final String MODID = "witherskelefix";
+	public static final String MODID = "wstweaks";
 	public static final String MODNAME = "Wither Skeleton Tweaks";
 	public static final String VERSION = "3.0.0";
 

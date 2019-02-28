@@ -1,4 +1,4 @@
-package shadows.wstweaks.common;
+package shadows.wstweaks.item;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
