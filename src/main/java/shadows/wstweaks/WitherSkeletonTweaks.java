@@ -1,43 +1,61 @@
 package shadows.wstweaks;
 
-import java.io.File;
-
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.util.EnumHelper;
+import net.minecraft.item.IItemTier;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.NonNullList;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import shadows.placebo.registry.RegistryInformationV2;
-import shadows.placebo.util.RecipeHelper;
-import shadows.wstweaks.core.WSTConfig;
-import shadows.wstweaks.core.WSTRegistry;
-import shadows.wstweaks.proxy.CommonProxy;
-import shadows.wstweaks.util.Events;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ObjectHolder;
+import shadows.placebo.recipe.RecipeHelper;
+import shadows.placebo.util.ItemTier;
 
-@Mod(modid = WitherSkeletonTweaks.MODID, version = WitherSkeletonTweaks.VERSION, name = WitherSkeletonTweaks.MODNAME, acceptedMinecraftVersions = "[1.12, 1.13)", dependencies = "required-after:placebo@[1.3.0,)")
-
+@Mod(WitherSkeletonTweaks.MODID)
 public class WitherSkeletonTweaks {
 
-	public static final String MODID = "witherskelefix";
-	public static final String MODNAME = "Wither Skeleton Tweaks";
-	public static final String VERSION = "2.6.3";
+	public static final String MODID = "wstweaks";
+	public static final RecipeHelper HELPER = new RecipeHelper(MODID);
+	public static IItemTier IMMOLATION = new ItemTier(9, 4096, 0.6F, 12, 30, Ingredient.fromItems(Items.NETHER_STAR));
 
-	@SidedProxy(clientSide = "shadows.wstweaks.proxy.ClientProxy", serverSide = "shadows.wstweaks.proxy.CommonProxy")
-	public static CommonProxy PROXY;
+	@ObjectHolder("wstweaks:fragment")
+	public static final Item FRAGMENT = null;
 
-	public static Configuration CONFIG;
-	public static final RegistryInformationV2 INFO = new RegistryInformationV2(MODID, null);
-	public static final RecipeHelper HELPER = new RecipeHelper(MODID, MODNAME, INFO.getRecipeList());
+	@ObjectHolder("wstweaks:lava_blade")
+	public static final ItemImmolationBlade LAVA_SWORD = null;
 
-	@Mod.EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
-		CONFIG = new Configuration(new File(event.getModConfigurationDirectory(), "wither_skeleton_tweaks.cfg"));
-		WSTConfig.syncConfig();
-		EnumHelper.addToolMaterial("immolation", 9, 4096, 0.6f, WSTConfig.immolationDmg, 72);
-		MinecraftForge.EVENT_BUS.register(new WSTRegistry());
-		MinecraftForge.EVENT_BUS.register(new Events());
-		PROXY.preInit(event);
+	@ObjectHolder("wstweaks:blaze_blade")
+	public static final ItemImmolationBlade BLAZE_SWORD = null;
+
+	public WitherSkeletonTweaks() {
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WSTConfig.SPEC);
+		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+		bus.addGenericListener(Item.class, this::onItemRegistry);
+		bus.addListener(this::setup);
+	}
+
+	@SubscribeEvent
+	public void onItemRegistry(RegistryEvent.Register<Item> e) {
+		e.getRegistry().registerAll(new Item(new Item.Properties().group(ItemGroup.MATERIALS)).setRegistryName(MODID, "fragment"), new ItemImmolationBlade().setRegistryName(MODID, "lava_blade"), new ItemImmolationBlade().setRegistryName(MODID, "blaze_blade"));
+	}
+
+	@SubscribeEvent
+	public void setup(FMLCommonSetupEvent e) {
+		Item L = Items.LAVA_BUCKET;
+		Item S = Items.NETHER_STAR;
+		Item T = Items.STICK;
+		HELPER.addShaped(LAVA_SWORD, 3, 3, null, L, S, L, S, L, T, L, null);
+		L = Items.BLAZE_ROD;
+		HELPER.addShaped(BLAZE_SWORD, 3, 3, null, L, S, L, S, L, T, L, null);
+		WitherSkeletonTweaks.HELPER.addShapeless(new ItemStack(Items.WITHER_SKELETON_SKULL), NonNullList.withSize(WSTConfig.INSTANCE.shardValue.get(), Ingredient.fromItems(FRAGMENT)).toArray());
 	}
 
 }
