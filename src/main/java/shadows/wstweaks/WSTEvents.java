@@ -18,7 +18,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biomes;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -37,7 +37,7 @@ public class WSTEvents {
 				double x = entity.posX;
 				double y = entity.posY;
 				double z = entity.posZ;
-				if (world.getBiome(new BlockPos(x, y, z)) == Biomes.NETHER || (WSTConfig.INSTANCE.allowAllBiomes.get() && !event.getWorld().func_217337_f(new BlockPos(x, y, z)) && rand.nextInt(WSTConfig.INSTANCE.allBiomesChance.get()) == 0)) {
+				if (world.dimension.getType() == DimensionType.THE_NETHER || (WSTConfig.INSTANCE.allowAllBiomes.get() && !event.getWorld().func_217337_f(new BlockPos(x, y, z)) && rand.nextInt(WSTConfig.INSTANCE.allBiomesChance.get()) == 0)) {
 					event.setCanceled(true);
 					entity.remove();
 					WitherSkeletonEntity k = EntityType.WITHER_SKELETON.create(world);
