@@ -66,15 +66,14 @@ public class WSTEvents {
 					event.getDrops().add(newEntity(event.getEntity(), stack));
 				}
 			} else if (event.getEntity() instanceof AbstractSkeletonEntity) {
-				ItemStack stack = new ItemStack(Items.SKELETON_SKULL);
 				ItemEntity toRemove = null;
 
 				for (ItemEntity i : drops)
-					if (i.getItem().isItemEqual(stack)) toRemove = i;
+					if (i.getItem().getItem() == Items.SKELETON_SKULL) toRemove = i;
 
 				if (toRemove != null) drops.remove(toRemove);
 
-				drops.add(newEntity(event.getEntity(), stack));
+				drops.add(newEntity(event.getEntity(), new ItemStack(Items.WITHER_SKELETON_SKULL)));
 			}
 		}
 	}
