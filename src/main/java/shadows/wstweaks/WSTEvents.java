@@ -37,7 +37,7 @@ public class WSTEvents {
 				double x = entity.posX;
 				double y = entity.posY;
 				double z = entity.posZ;
-				if (world.dimension.getType() == DimensionType.THE_NETHER || (WSTConfig.INSTANCE.allowAllBiomes.get() && !event.getWorld().func_217337_f(new BlockPos(x, y, z)) && rand.nextInt(WSTConfig.INSTANCE.allBiomesChance.get()) == 0)) {
+				if (world.dimension.getType() == DimensionType.THE_NETHER || (WSTConfig.INSTANCE.allowAllBiomes.get() && event.getWorld().getLightSubtracted(new BlockPos(x, y, z), 0) < 9 && rand.nextInt(WSTConfig.INSTANCE.allBiomesChance.get()) == 0)) {
 					event.setCanceled(true);
 					entity.remove();
 					WitherSkeletonEntity k = EntityType.WITHER_SKELETON.create(world);
