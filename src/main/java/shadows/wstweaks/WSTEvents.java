@@ -34,10 +34,10 @@ public class WSTEvents {
 			World world = entity.world;
 			Random rand = world.rand;
 			if (!event.getEntity().world.isRemote) {
-				double x = entity.func_226277_ct_();
-				double y = entity.func_226278_cu_();
-				double z = entity.func_226281_cx_();
-				if (world.dimension.getType() == DimensionType.THE_NETHER || (WSTConfig.INSTANCE.allowAllBiomes.get() && event.getWorld().func_226659_b_(new BlockPos(x, y, z), 0) < 9 && rand.nextInt(WSTConfig.INSTANCE.allBiomesChance.get()) == 0)) {
+				double x = entity.getX();
+				double y = entity.getY();
+				double z = entity.getZ();
+				if (world.dimension.getType() == DimensionType.THE_NETHER || (WSTConfig.INSTANCE.allowAllBiomes.get() && event.getWorld().getBaseLightLevel(new BlockPos(x, y, z), 0) < 9 && rand.nextInt(WSTConfig.INSTANCE.allBiomesChance.get()) == 0)) {
 					event.setCanceled(true);
 					entity.remove();
 					WitherSkeletonEntity k = EntityType.WITHER_SKELETON.create(world);
@@ -112,9 +112,9 @@ public class WSTEvents {
 	}
 
 	public static ItemEntity newEntity(Entity e, ItemStack stack) {
-		double x = e.func_226277_ct_();
-		double y = e.func_226278_cu_();
-		double z = e.func_226281_cx_();
+		double x = e.getX();
+		double y = e.getY();
+		double z = e.getZ();
 		return new ItemEntity(e.world, x, y, z, stack);
 	}
 
