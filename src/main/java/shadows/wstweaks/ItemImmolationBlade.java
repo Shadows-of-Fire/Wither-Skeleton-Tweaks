@@ -10,6 +10,8 @@ import net.minecraft.util.DamageSource;
 
 public class ItemImmolationBlade extends SwordItem {
 
+	public static final DamageSource FIREWORKS = new DamageSource("fireworks").setExplosion();
+
 	public ItemImmolationBlade() {
 		super(WitherSkeletonTweaks.IMMOLATION, 0, -1, new Item.Properties().group(ItemGroup.COMBAT));
 	}
@@ -19,7 +21,7 @@ public class ItemImmolationBlade extends SwordItem {
 		super.hitEntity(stack, target, attacker);
 		if (target instanceof AbstractSkeletonEntity) {
 			target.setHealth(1);
-			target.attackEntityFrom(DamageSource.FIREWORKS, 150);
+			target.attackEntityFrom(FIREWORKS, 150);
 			double i = target.getEntityWorld().rand.nextDouble() * 4.0D;
 			double d = target.getEntityWorld().rand.nextDouble() * 4.0D;
 			double k = target.getEntityWorld().rand.nextDouble() * 4.0D;

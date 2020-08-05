@@ -16,6 +16,8 @@ version="${file.jarVersion}" #mandatory
 
 displayName="Wither Skeleton Tweaks" #mandatory
 
+license="MIT License" #mandatory
+
 description='''
 Large colored bags, nothing more.
 '''

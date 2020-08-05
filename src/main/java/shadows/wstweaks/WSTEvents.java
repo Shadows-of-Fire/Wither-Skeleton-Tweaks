@@ -17,8 +17,8 @@ import net.minecraft.item.Items;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -37,7 +37,7 @@ public class WSTEvents {
 				double x = entity.getX();
 				double y = entity.getY();
 				double z = entity.getZ();
-				if (world.dimension.getType() == DimensionType.THE_NETHER || (WSTConfig.INSTANCE.allowAllBiomes.get() && event.getWorld().getBaseLightLevel(new BlockPos(x, y, z), 0) < 9 && rand.nextInt(WSTConfig.INSTANCE.allBiomesChance.get()) == 0)) {
+				if (world.getDimensionRegistryKey() == DimensionType.THE_NETHER_REGISTRY_KEY || (WSTConfig.INSTANCE.allowAllBiomes.get() && event.getWorld().getBaseLightLevel(new BlockPos(x, y, z), 0) < 9 && rand.nextInt(WSTConfig.INSTANCE.allBiomesChance.get()) == 0)) {
 					event.setCanceled(true);
 					entity.remove();
 					WitherSkeletonEntity k = EntityType.WITHER_SKELETON.create(world);
@@ -57,7 +57,7 @@ public class WSTEvents {
 	}
 
 	public static void immolate(LivingDropsEvent event) {
-		if (!event.getEntity().world.isRemote && (event.getSource() == DamageSource.FIREWORKS || hasSword(event.getSource()))) {
+		if (!event.getEntity().world.isRemote && (event.getSource().damageType.equals("fireworks") || hasSword(event.getSource()))) {
 			Collection<ItemEntity> drops = event.getDrops();
 
 			if (event.getEntity().getClass() == WitherSkeletonEntity.class) {
@@ -87,7 +87,7 @@ public class WSTEvents {
 	public static void addFrags(LivingDropsEvent event) {
 		if (WSTConfig.INSTANCE.shardDropChance.get() <= 0) return;
 		if (event.getEntity().world.rand.nextInt(WSTConfig.INSTANCE.shardDropChance.get()) == 0) {
-			if (!event.getEntity().world.isRemote && event.getEntity().getClass() == WitherSkeletonEntity.class && !(event.getSource() == DamageSource.FIREWORKS)) {
+			if (!event.getEntity().world.isRemote && event.getEntity().getClass() == WitherSkeletonEntity.class && !(event.getSource().damageType.equals("fireworks"))) {
 				Collection<ItemEntity> drops = event.getDrops();
 				ItemStack stack = new ItemStack(Items.WITHER_SKELETON_SKULL);
 				if (!isStackInList(drops, stack)) {
