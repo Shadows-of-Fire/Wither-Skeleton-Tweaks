@@ -8,6 +8,8 @@ displayURL="https://www.curseforge.com/minecraft/mc-mods/wither-skeleton-tweaks"
 
 authors="Shadows_of_Fire" #optional
 
+license="MIT License" #mandatory
+
 [[mods]] #mandatory
 
 modId="wstweaks" #mandatory
@@ -16,8 +18,6 @@ version="${file.jarVersion}" #mandatory
 
 displayName="Wither Skeleton Tweaks" #mandatory
 
-license="MIT License" #mandatory
-
 description='''
 Large colored bags, nothing more.
 '''
@@ -25,20 +25,20 @@ Large colored bags, nothing more.
 [[dependencies.wstweaks]] #optional
     modId="forge" #mandatory
     mandatory=true #mandatory
-    versionRange="[30,)" #mandatory
+    versionRange="[33.0.22,)" #mandatory
     ordering="NONE"
     side="BOTH"
 	
 [[dependencies.wstweaks]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.15,)"
+    versionRange="[1.16.2,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.wstweaks]]
     modId="placebo"
     mandatory=true
-    versionRange="[3,)"
+    versionRange="[4.2,)"
     ordering="NONE"
     side="BOTH"

@@ -17,7 +17,6 @@ import net.minecraft.item.Items;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
@@ -34,10 +33,10 @@ public class WSTEvents {
 			World world = entity.world;
 			Random rand = world.rand;
 			if (!event.getEntity().world.isRemote) {
-				double x = entity.getX();
-				double y = entity.getY();
-				double z = entity.getZ();
-				if (world.getDimensionRegistryKey() == DimensionType.THE_NETHER_REGISTRY_KEY || (WSTConfig.INSTANCE.allowAllBiomes.get() && event.getWorld().getBaseLightLevel(new BlockPos(x, y, z), 0) < 9 && rand.nextInt(WSTConfig.INSTANCE.allBiomesChance.get()) == 0)) {
+				double x = entity.getPosX();
+				double y = entity.getPosY();
+				double z = entity.getPosZ();
+				if (world.getDimensionKey() == World.THE_NETHER || (WSTConfig.INSTANCE.allowAllBiomes.get() && event.getWorld().getLightSubtracted(new BlockPos(x, y, z), 0) < 9 && rand.nextInt(WSTConfig.INSTANCE.allBiomesChance.get()) == 0)) {
 					event.setCanceled(true);
 					entity.remove();
 					WitherSkeletonEntity k = EntityType.WITHER_SKELETON.create(world);
@@ -112,9 +111,9 @@ public class WSTEvents {
 	}
 
 	public static ItemEntity newEntity(Entity e, ItemStack stack) {
-		double x = e.getX();
-		double y = e.getY();
-		double z = e.getZ();
+		double x = e.getPosX();
+		double y = e.getPosY();
+		double z = e.getPosZ();
 		return new ItemEntity(e.world, x, y, z, stack);
 	}
 
