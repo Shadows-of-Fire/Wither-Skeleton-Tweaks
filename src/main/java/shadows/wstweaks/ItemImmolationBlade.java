@@ -18,6 +18,7 @@ public class ItemImmolationBlade extends SwordItem {
 
 	@Override
 	public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+		target.setFire(150);
 		super.hitEntity(stack, target, attacker);
 		if (target instanceof AbstractSkeletonEntity) {
 			target.setHealth(1);
@@ -28,7 +29,6 @@ public class ItemImmolationBlade extends SwordItem {
 			target.addVelocity((2.0D - i), d, (2.0D - k));
 			return true;
 		}
-		target.setFire(150);
 		return true;
 	}
 
