@@ -18,6 +18,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -29,7 +30,7 @@ public class WSTEvents {
 	@SubscribeEvent
 	public static void witherTransform(LivingSpawnEvent.SpecialSpawn event) {
 		if (event.getEntity() instanceof SkeletonEntity) {
-			Entity entity = event.getEntity();
+			SkeletonEntity entity = (SkeletonEntity) event.getEntity();
 			World world = entity.world;
 			Random rand = world.rand;
 			if (!event.getEntity().world.isRemote) {
@@ -38,7 +39,7 @@ public class WSTEvents {
 				double z = entity.getPosZ();
 				if (world.getDimensionKey() == World.THE_NETHER || (WSTConfig.INSTANCE.allowAllBiomes.get() && event.getWorld().getLightSubtracted(new BlockPos(x, y, z), 0) < 9 && rand.nextInt(WSTConfig.INSTANCE.allBiomesChance.get()) == 0)) {
 					event.setCanceled(true);
-					entity.remove();
+					entity.getPersistentData().putBoolean("wst.removed", true);
 					WitherSkeletonEntity k = EntityType.WITHER_SKELETON.create(world);
 					k.setLocationAndAngles(x, y, z, 0, 0);
 					world.addEntity(k);
@@ -46,6 +47,11 @@ public class WSTEvents {
 				}
 			}
 		}
+	}
+
+	@SubscribeEvent
+	public static void join(EntityJoinWorldEvent e) {
+		if (e.getEntity().getPersistentData().getBoolean("wst.removed")) e.setCanceled(true);
 	}
 
 	@SubscribeEvent
