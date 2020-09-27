@@ -19,26 +19,26 @@ version="${file.jarVersion}" #mandatory
 displayName="Wither Skeleton Tweaks" #mandatory
 
 description='''
-Large colored bags, nothing more.
+Tweaking wither skeletons for the better.
 '''
 
 [[dependencies.wstweaks]] #optional
     modId="forge" #mandatory
     mandatory=true #mandatory
-    versionRange="[33.0.22,)" #mandatory
+    versionRange="[34.1.0,)" #mandatory
     ordering="NONE"
     side="BOTH"
 	
 [[dependencies.wstweaks]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.2,)"
+    versionRange="[1.16.3,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.wstweaks]]
     modId="placebo"
     mandatory=true
-    versionRange="[4.2,)"
+    versionRange="[4.3,)"
     ordering="NONE"
     side="BOTH"
