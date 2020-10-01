@@ -26,7 +26,7 @@ public class ItemImmolationBlade extends SwordItem {
 			double i = target.getEntityWorld().rand.nextDouble() * 4.0D;
 			double d = target.getEntityWorld().rand.nextDouble() * 4.0D;
 			double k = target.getEntityWorld().rand.nextDouble() * 4.0D;
-			target.addVelocity((2.0D - i), d, (2.0D - k));
+			target.addVelocity(2.0D - i, d, 2.0D - k);
 			return true;
 		}
 		return true;

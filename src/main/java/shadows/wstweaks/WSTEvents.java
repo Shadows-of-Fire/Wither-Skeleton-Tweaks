@@ -14,6 +14,7 @@ import net.minecraft.entity.monster.WitherSkeletonEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -37,7 +38,7 @@ public class WSTEvents {
 				double x = entity.getPosX();
 				double y = entity.getPosY();
 				double z = entity.getPosZ();
-				if (world.getDimensionKey() == World.THE_NETHER || (WSTConfig.INSTANCE.allowAllBiomes.get() && event.getWorld().getLightSubtracted(new BlockPos(x, y, z), 0) < 9 && rand.nextInt(WSTConfig.INSTANCE.allBiomesChance.get()) == 0)) {
+				if (world.getDimensionKey() == World.THE_NETHER || WSTConfig.INSTANCE.allowAllBiomes.get() && event.getWorld().getLightSubtracted(new BlockPos(x, y, z), 0) < 9 && rand.nextInt(WSTConfig.INSTANCE.allBiomesChance.get()) == 0) {
 					event.setCanceled(true);
 					entity.getPersistentData().putBoolean("wst.removed", true);
 					WitherSkeletonEntity k = EntityType.WITHER_SKELETON.create(world);
@@ -92,7 +93,7 @@ public class WSTEvents {
 	public static void addFrags(LivingDropsEvent event) {
 		if (WSTConfig.INSTANCE.shardDropChance.get() <= 0) return;
 		if (event.getEntity().world.rand.nextInt(WSTConfig.INSTANCE.shardDropChance.get()) == 0) {
-			if (!event.getEntity().world.isRemote && event.getEntity().getClass() == WitherSkeletonEntity.class && !(event.getSource().damageType.equals("fireworks"))) {
+			if (!event.getEntity().world.isRemote && event.getEntity().getClass() == WitherSkeletonEntity.class && !event.getSource().damageType.equals("fireworks")) {
 				Collection<ItemEntity> drops = event.getDrops();
 				ItemStack stack = new ItemStack(Items.WITHER_SKELETON_SKULL);
 				if (!isStackInList(drops, stack)) {
@@ -108,7 +109,11 @@ public class WSTEvents {
 			List<ItemEntity> toRemove = new ArrayList<>();
 			for (ItemEntity entity : event.getDrops()) {
 				ItemStack stack = entity.getItem();
-				if (stack.getItem() == Items.STONE_SWORD || stack.getItem() == Items.BOW) toRemove.add(entity);
+				if (stack.getItem() == Items.STONE_SWORD || stack.getItem() == Items.BOW) {
+					CompoundNBT tag = stack.getTag();
+					if (tag != null && (tag.contains("Damage") && tag.keySet().size() > 2 || tag.keySet().size() > 1)) continue;
+					toRemove.add(entity);
+				}
 			}
 
 			for (ItemEntity i : toRemove)
