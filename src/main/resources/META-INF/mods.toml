@@ -25,20 +25,20 @@ Tweaking wither skeletons for the better.
 [[dependencies.wstweaks]] #optional
     modId="forge" #mandatory
     mandatory=true #mandatory
-    versionRange="[34.1.0,)" #mandatory
+    versionRange="[35.1.36,)" #mandatory
     ordering="NONE"
     side="BOTH"
 	
 [[dependencies.wstweaks]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.3,)"
+    versionRange="[1.16.4,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.wstweaks]]
     modId="placebo"
     mandatory=true
-    versionRange="[4.3,)"
+    versionRange="[4.4,)"
     ordering="NONE"
     side="BOTH"
