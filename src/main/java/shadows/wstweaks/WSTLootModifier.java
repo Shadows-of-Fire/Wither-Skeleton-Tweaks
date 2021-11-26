@@ -5,9 +5,9 @@ import java.util.List;
 import com.google.gson.JsonObject;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.AbstractSkeletonEntity;
 import net.minecraft.entity.monster.WitherSkeletonEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootContext;
@@ -28,7 +28,7 @@ public class WSTLootModifier extends LootModifier {
 	protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext ctx) {
 		Entity ent = ctx.getParamOrNull(LootParameters.THIS_ENTITY);
 		DamageSource src = ctx.getParamOrNull(LootParameters.DAMAGE_SOURCE);
-		if (src != null) {
+		if (src != null && ent != null) {
 			if (src.msgId.equals("fireworks") || hasSword(src)) {
 				if (ent.getClass() == WitherSkeletonEntity.class) {
 					if (generatedLoot.stream().noneMatch(i -> i.getItem() == Items.WITHER_SKELETON_SKULL)) generatedLoot.add(new ItemStack(Items.WITHER_SKELETON_SKULL));
@@ -39,7 +39,7 @@ public class WSTLootModifier extends LootModifier {
 		}
 
 		int chance = WSTConfig.INSTANCE.shardDropChance.get();
-		if (ent.getClass() == WitherSkeletonEntity.class && chance > 0 && ctx.getRandom().nextInt(chance) == 0) {
+		if (ent != null && ent.getClass() == WitherSkeletonEntity.class && chance > 0 && ctx.getRandom().nextInt(chance) == 0) {
 			if (generatedLoot.stream().noneMatch(i -> i.getItem() == Items.WITHER_SKELETON_SKULL)) {
 				generatedLoot.add(new ItemStack(WitherSkeletonTweaks.FRAGMENT));
 			}
@@ -49,7 +49,7 @@ public class WSTLootModifier extends LootModifier {
 
 	private static boolean hasSword(DamageSource source) {
 		Entity s = source.getEntity();
-		if (s instanceof PlayerEntity) return ((PlayerEntity) s).getMainHandItem().getItem() instanceof ItemImmolationBlade;
+		if (s instanceof LivingEntity) return ((LivingEntity) s).getMainHandItem().getItem() instanceof ItemImmolationBlade;
 		else return false;
 	}
 
