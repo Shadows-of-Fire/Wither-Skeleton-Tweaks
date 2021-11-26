@@ -1,44 +1,31 @@
 modLoader="javafml" #mandatory
 
-loaderVersion="[28,)" #mandatory
+loaderVersion="[32,)" #mandatory
 
-issueTrackerURL="https://github.com/Shadows-of-Fire/Wither-Skeleton-Tweaks/issues" #optional
-
-displayURL="https://www.curseforge.com/minecraft/mc-mods/wither-skeleton-tweaks" #optional
-
-authors="Shadows_of_Fire" #optional
+authors="${author}" #optional
 
 license="MIT License" #mandatory
 
 [[mods]] #mandatory
 
-modId="wstweaks" #mandatory
+modId="${modid}" #mandatory
 
-version="${file.jarVersion}" #mandatory
+version="${version}" #mandatory
 
-displayName="Wither Skeleton Tweaks" #mandatory
+displayName="${displayName}" #mandatory
 
-description='''
-Tweaking wither skeletons for the better.
-'''
+description='''${desc}'''
 
-[[dependencies.wstweaks]] #optional
+[[dependencies.${modid}]] #optional
     modId="forge" #mandatory
     mandatory=true #mandatory
-    versionRange="[35.1.36,)" #mandatory
-    ordering="NONE"
-    side="BOTH"
-	
-[[dependencies.wstweaks]]
-    modId="minecraft"
-    mandatory=true
-    versionRange="[1.16.4,)"
+    versionRange="[${forgeVersion},)" #mandatory
     ordering="NONE"
     side="BOTH"
 
-[[dependencies.wstweaks]]
-    modId="placebo"
+[[dependencies.${modid}]]
+    modId="minecraft"
     mandatory=true
-    versionRange="[4.4,)"
+    versionRange="[${mcVersion},)"
     ordering="NONE"
     side="BOTH"
