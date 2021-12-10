@@ -1,3 +1,6 @@
+## 6.0.0
+* Update to 1.17.1
+
 ## 5.4.1
 * Fixed a crashed caused by not null-checking something in a loot modifier.
 

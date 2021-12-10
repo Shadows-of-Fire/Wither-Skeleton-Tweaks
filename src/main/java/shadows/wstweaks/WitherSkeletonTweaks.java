@@ -1,12 +1,13 @@
 package shadows.wstweaks;
 
-import net.minecraft.item.IItemTier;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.NonNullList;
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraftforge.common.ForgeTier;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.RegistryEvent.Register;
@@ -19,14 +20,13 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ObjectHolder;
 import shadows.placebo.recipe.RecipeHelper;
-import shadows.placebo.util.ItemTier;
 
 @Mod(WitherSkeletonTweaks.MODID)
 public class WitherSkeletonTweaks {
 
 	public static final String MODID = "wstweaks";
 	public static final RecipeHelper HELPER = new RecipeHelper(MODID);
-	public static IItemTier IMMOLATION = new ItemTier(9, 4096, 0.6F, 12, 30, Ingredient.of(Items.NETHER_STAR));
+	public static Tier IMMOLATION = new ForgeTier(9, 4096, 0.6F, 12, 30, null, () -> Ingredient.of(Items.NETHER_STAR));
 
 	@ObjectHolder("wstweaks:fragment")
 	public static final Item FRAGMENT = null;
@@ -45,7 +45,7 @@ public class WitherSkeletonTweaks {
 
 	@SubscribeEvent
 	public void onItemRegistry(RegistryEvent.Register<Item> e) {
-		e.getRegistry().registerAll(new Item(new Item.Properties().tab(ItemGroup.TAB_MATERIALS)).setRegistryName(MODID, "fragment"), new ItemImmolationBlade().setRegistryName(MODID, "lava_blade"), new ItemImmolationBlade().setRegistryName(MODID, "blaze_blade"));
+		e.getRegistry().registerAll(new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)).setRegistryName(MODID, "fragment"), new ItemImmolationBlade().setRegistryName(MODID, "lava_blade"), new ItemImmolationBlade().setRegistryName(MODID, "blaze_blade"));
 	}
 
 	@SubscribeEvent

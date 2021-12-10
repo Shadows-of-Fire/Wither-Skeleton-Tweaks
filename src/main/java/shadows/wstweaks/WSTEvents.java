@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.monster.AbstractSkeletonEntity;
-import net.minecraft.entity.monster.SkeletonEntity;
-import net.minecraft.entity.monster.WitherSkeletonEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.AbstractSkeleton;
+import net.minecraft.world.entity.monster.Skeleton;
+import net.minecraft.world.entity.monster.WitherSkeleton;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
@@ -26,21 +26,21 @@ public class WSTEvents {
 
 	@SubscribeEvent
 	public static void witherTransform(LivingSpawnEvent.SpecialSpawn event) {
-		if (event.getEntity() instanceof SkeletonEntity) {
-			SkeletonEntity entity = (SkeletonEntity) event.getEntity();
-			World world = entity.level;
+		if (event.getEntity() instanceof Skeleton) {
+			Skeleton entity = (Skeleton) event.getEntity();
+			Level world = entity.level;
 			Random rand = world.random;
 			if (!event.getEntity().level.isClientSide) {
 				double x = entity.getX();
 				double y = entity.getY();
 				double z = entity.getZ();
-				if (world.dimension() == World.NETHER || WSTConfig.INSTANCE.allowAllBiomes.get() && event.getWorld().getRawBrightness(new BlockPos(x, y, z), 0) < 9 && rand.nextInt(WSTConfig.INSTANCE.allBiomesChance.get()) == 0) {
+				if (world.dimension() == Level.NETHER || WSTConfig.INSTANCE.allowAllBiomes.get() && event.getWorld().getRawBrightness(new BlockPos(x, y, z), 0) < 9 && rand.nextInt(WSTConfig.INSTANCE.allBiomesChance.get()) == 0) {
 					event.setCanceled(true);
 					entity.getPersistentData().putBoolean("wst.removed", true);
-					WitherSkeletonEntity k = EntityType.WITHER_SKELETON.create(world);
+					WitherSkeleton k = EntityType.WITHER_SKELETON.create(world);
 					k.moveTo(x, y, z, 0, 0);
 					world.addFreshEntity(k);
-					if (WSTConfig.INSTANCE.giveBows.get()) k.setItemInHand(Hand.MAIN_HAND, new ItemStack(Items.BOW));
+					if (WSTConfig.INSTANCE.giveBows.get()) k.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.BOW));
 				}
 			}
 		}
@@ -57,13 +57,13 @@ public class WSTEvents {
 	}
 
 	public static void delSwords(LivingDropsEvent event) {
-		if (WSTConfig.INSTANCE.delSwords.get() && !event.getEntity().level.isClientSide && event.getEntity() instanceof AbstractSkeletonEntity) {
+		if (WSTConfig.INSTANCE.delSwords.get() && !event.getEntity().level.isClientSide && event.getEntity() instanceof AbstractSkeleton) {
 
 			List<ItemEntity> toRemove = new ArrayList<>();
 			for (ItemEntity entity : event.getDrops()) {
 				ItemStack stack = entity.getItem();
 				if (stack.getItem() == Items.STONE_SWORD || stack.getItem() == Items.BOW) {
-					CompoundNBT tag = stack.getTag();
+					CompoundTag tag = stack.getTag();
 					if (tag != null && (tag.contains("Damage") && tag.getAllKeys().size() > 2 || tag.getAllKeys().size() > 1)) continue;
 					toRemove.add(entity);
 				}
