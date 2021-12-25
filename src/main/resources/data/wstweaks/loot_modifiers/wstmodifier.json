@@ -1,4 +1,4 @@
 {
   "conditions": [],
-  "function": "wstweaks:wstmodifier"
+  "type": "wstweaks:wstmodifier"
 }

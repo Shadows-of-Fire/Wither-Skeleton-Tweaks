@@ -1,3 +1,6 @@
+## 7.0.1
+* Fixed a parse error with the loot modifier.
+
 ## 7.0.0
 * Update to 1.18.1
 
