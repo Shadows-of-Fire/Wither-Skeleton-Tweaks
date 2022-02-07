@@ -1,3 +1,8 @@
+## 7.1.0
+* Rewrote the config to use the Placebo Config system instead of the TOML.
+* Added config options for Immolation Blade stats.
+* Converted Immolation Blade recipes to json.
+
 ## 7.0.1
 * Fixed a parse error with the loot modifier.
 

@@ -1,38 +1,31 @@
 package shadows.wstweaks;
 
-import org.apache.commons.lang3.tuple.Pair;
-
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
-import net.minecraftforge.common.ForgeConfigSpec.IntValue;
+import shadows.placebo.config.Configuration;
 
 public class WSTConfig {
 
-	public static final ForgeConfigSpec SPEC;
-	public static final WSTConfig INSTANCE;
-	static {
-		Pair<WSTConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(WSTConfig::new);
-		SPEC = specPair.getRight();
-		INSTANCE = specPair.getLeft();
-	}
+	public static int shardValue = 9;
+	public static float shardDropChance = 1.0F;
+	public static boolean allBiomes = false;
+	public static float allBiomesChance = 1.0F;
+	public static boolean delSwords = true;
+	public static boolean giveBows = true;
+	public static int swordDurability = 4096;
+	public static float swordDamage = 12;
+	public static float swordAtkSpeed = 0.6F;
 
-	public final IntValue shardValue;
-	public final IntValue shardDropChance;
-	public final BooleanValue allowAllBiomes;
-	public final IntValue allBiomesChance;
-	public final BooleanValue delSwords;
-	public final BooleanValue giveBows;
-
-	public WSTConfig(ForgeConfigSpec.Builder build) {
-		build.comment("Server configuration");
-		build.push("server");
-		this.shardValue = build.comment("How many fragments are required to make a skull.").defineInRange("fragvalue", 9, 1, 9);
-		this.shardDropChance = build.comment("The 1/n chance for a wither skeleton to drop a fragment.").defineInRange("fragchance", 1, 1, 32767);
-		this.allowAllBiomes = build.comment("If skeletons outside of hell can be transformed into wither skeletons.").define("allbiomes", false);
-		this.allBiomesChance = build.comment("The 1/n chance for wither skeletons outside hell to be transformed.  Requires allbiomes == true.").defineInRange("allbiomechance", 1, 1, 32767);
-		this.delSwords = build.comment("If stone swords that would be dropped are deleted.").define("delswords", true);
-		this.giveBows = build.comment("If transformed skeletons are given bows instead of stone swords.").define("givebows", true);
-		build.pop();
+	public static void load() {
+		Configuration cfg = new Configuration(WitherSkeletonTweaks.MODID);
+		shardValue = cfg.getInt("Shard Value", "general", shardValue, 1, 9, "How many shards it takes to craft a Wither Skeleton Skull.");
+		shardDropChance = cfg.getFloat("Shard Drop Chance", "general", shardDropChance, 0, 1, "The chance for a skull shard to drop. 1 = 100%, 0.5 = 50%, etc");
+		allBiomes = cfg.getBoolean("Convert All Biomes", "general", allBiomes, "If skeletons in ALL biomes are converted, instead of just the nether.");
+		allBiomesChance = cfg.getFloat("All Biomes Chance", "general", allBiomesChance, 0, 1, "The chance for skeletons to be converted in all biomes, when enabled. 1 = 100%, 0.5 = 50%, etc");
+		delSwords = cfg.getBoolean("Delete Swords", "general", delSwords, "If stone swords and other trash are removed from wither skeleton drop tables.");
+		giveBows = cfg.getBoolean("Give Bows", "general", giveBows, "If converted skeletons receive bows (Wither Skeletons always shoot flaming arrows).");
+		swordDurability = cfg.getInt("Durability", "blades", swordDurability, 1, 65536, "The durability of immolation blades.");
+		swordDamage = cfg.getFloat("Attack Damage", "blades", swordDamage, 1, 4096, "The attack damage of immolation blades. This is a modifier, so the real value is always 1 higher.");
+		swordAtkSpeed = cfg.getFloat("Attack Speed", "blades", swordAtkSpeed, -4096, 4096, "The attack speed of immolation blades. This is a modifier, so the real value is a bit different.");
+		if (cfg.hasChanged()) cfg.save();
 	}
 
 }

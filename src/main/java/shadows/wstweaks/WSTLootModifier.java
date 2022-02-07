@@ -38,8 +38,7 @@ public class WSTLootModifier extends LootModifier {
 			}
 		}
 
-		int chance = WSTConfig.INSTANCE.shardDropChance.get();
-		if (ent != null && ent.getClass() == WitherSkeleton.class && chance > 0 && ctx.getRandom().nextInt(chance) == 0) {
+		if (ent != null && ent.getClass() == WitherSkeleton.class && ctx.getRandom().nextFloat() <= WSTConfig.shardDropChance) {
 			if (generatedLoot.stream().noneMatch(i -> i.getItem() == Items.WITHER_SKELETON_SKULL)) {
 				generatedLoot.add(new ItemStack(WitherSkeletonTweaks.FRAGMENT));
 			}

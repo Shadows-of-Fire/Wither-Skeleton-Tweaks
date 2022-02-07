@@ -34,13 +34,13 @@ public class WSTEvents {
 				double x = entity.getX();
 				double y = entity.getY();
 				double z = entity.getZ();
-				if (world.dimension() == Level.NETHER || WSTConfig.INSTANCE.allowAllBiomes.get() && event.getWorld().getRawBrightness(new BlockPos(x, y, z), 0) < 9 && rand.nextInt(WSTConfig.INSTANCE.allBiomesChance.get()) == 0) {
+				if (world.dimension() == Level.NETHER || WSTConfig.allBiomes && event.getWorld().getRawBrightness(new BlockPos(x, y, z), 0) < 9 && rand.nextFloat() < WSTConfig.allBiomesChance) {
 					event.setCanceled(true);
 					entity.getPersistentData().putBoolean("wst.removed", true);
 					WitherSkeleton k = EntityType.WITHER_SKELETON.create(world);
 					k.moveTo(x, y, z, 0, 0);
 					world.addFreshEntity(k);
-					if (WSTConfig.INSTANCE.giveBows.get()) k.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.BOW));
+					if (WSTConfig.giveBows) k.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.BOW));
 				}
 			}
 		}
@@ -57,7 +57,7 @@ public class WSTEvents {
 	}
 
 	public static void delSwords(LivingDropsEvent event) {
-		if (WSTConfig.INSTANCE.delSwords.get() && !event.getEntity().level.isClientSide && event.getEntity() instanceof AbstractSkeleton) {
+		if (WSTConfig.delSwords && !event.getEntity().level.isClientSide && event.getEntity() instanceof AbstractSkeleton) {
 
 			List<ItemEntity> toRemove = new ArrayList<>();
 			for (ItemEntity entity : event.getDrops()) {
