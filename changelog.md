@@ -1,3 +1,6 @@
+## 7.1.1
+* Rebuilt for 1.18.2
+
 ## 7.1.0
 * Rewrote the config to use the Placebo Config system instead of the TOML.
   * This means all existing configs will be invalidated!
