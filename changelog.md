@@ -1,3 +1,7 @@
+## 7.1.2
+* Fixed the Immolation Blade attack speed config.
+  * The default config value has been updated, check / regenerate your config files!
+
 ## 7.1.1
 * Rebuilt for 1.18.2
 

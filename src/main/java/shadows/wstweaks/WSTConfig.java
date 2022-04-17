@@ -12,7 +12,7 @@ public class WSTConfig {
 	public static boolean giveBows = true;
 	public static int swordDurability = 4096;
 	public static float swordDamage = 12;
-	public static float swordAtkSpeed = 0.6F;
+	public static float swordAtkSpeed = -2F;
 
 	public static void load() {
 		Configuration cfg = new Configuration(WitherSkeletonTweaks.MODID);

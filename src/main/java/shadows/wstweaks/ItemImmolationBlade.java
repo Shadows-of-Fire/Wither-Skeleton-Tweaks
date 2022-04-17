@@ -13,7 +13,7 @@ public class ItemImmolationBlade extends SwordItem {
 	public static final DamageSource FIREWORKS = new DamageSource("fireworks").setExplosion();
 
 	public ItemImmolationBlade() {
-		super(WitherSkeletonTweaks.IMMOLATION, 0, -1, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT));
+		super(WitherSkeletonTweaks.IMMOLATION, 0, WSTConfig.swordAtkSpeed, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT));
 	}
 
 	@Override
