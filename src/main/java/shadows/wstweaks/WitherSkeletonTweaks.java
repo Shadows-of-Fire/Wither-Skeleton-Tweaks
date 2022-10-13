@@ -1,6 +1,8 @@
 package shadows.wstweaks;
 
-import net.minecraft.core.NonNullList;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -45,7 +47,13 @@ public class WitherSkeletonTweaks {
 
 	@SubscribeEvent
 	public void setup(FMLCommonSetupEvent e) {
-		WitherSkeletonTweaks.HELPER.addShapeless(new ItemStack(Items.WITHER_SKELETON_SKULL), NonNullList.withSize(WSTConfig.shardValue, Ingredient.of(FRAGMENT)).toArray());
+		WitherSkeletonTweaks.HELPER.registerProvider(factory -> {
+			List<Ingredient> inputs = new ArrayList<>(9);
+			for (int i = 0; i < WSTConfig.shardValue; i++) {
+				inputs.add(Ingredient.of(FRAGMENT));
+			}
+			factory.addShapeless(new ItemStack(Items.WITHER_SKELETON_SKULL), inputs.toArray());
+		});
 	}
 
 	@SubscribeEvent

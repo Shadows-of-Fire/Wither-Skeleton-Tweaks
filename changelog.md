@@ -1,3 +1,7 @@
+## 7.1.3
+* Updated to the new Placebo Recipe System
+  * Should finally fix weird issues with the fragment recipe being invalid / broken.
+
 ## 7.1.2
 * Fixed the Immolation Blade attack speed config.
   * The default config value has been updated, check / regenerate your config files!
