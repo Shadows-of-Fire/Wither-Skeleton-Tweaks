@@ -1,6 +1,7 @@
 ## 7.1.3
-* Updated to the new Placebo Recipe System
+* Updated to the new Placebo Recipe System.
   * Should finally fix weird issues with the fragment recipe being invalid / broken.
+* Altegar: Added Ukranian translation.
 
 ## 7.1.2
 * Fixed the Immolation Blade attack speed config.
