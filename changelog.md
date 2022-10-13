@@ -1,3 +1,6 @@
+## 8.0.0
+* Updated to 1.19.2
+
 ## 7.1.3
 * Updated to the new Placebo Recipe System.
   * Should finally fix weird issues with the fragment recipe being invalid / broken.

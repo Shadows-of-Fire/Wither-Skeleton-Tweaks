@@ -1,10 +1,12 @@
 package shadows.wstweaks;
 
-import java.util.List;
+import java.util.function.Supplier;
 
-import com.google.gson.JsonObject;
+import com.google.common.base.Suppliers;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.resources.ResourceLocation;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,17 +17,19 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
 
 public class WSTLootModifier extends LootModifier {
+
+	public static final Supplier<Codec<WSTLootModifier>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(inst -> codecStart(inst).apply(inst, WSTLootModifier::new)));
 
 	protected WSTLootModifier(LootItemCondition[] conditionsIn) {
 		super(conditionsIn);
 	}
 
 	@Override
-	protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext ctx) {
+	protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext ctx) {
 		Entity ent = ctx.getParamOrNull(LootContextParams.THIS_ENTITY);
 		DamageSource src = ctx.getParamOrNull(LootContextParams.DAMAGE_SOURCE);
 		if (src != null && ent != null) {
@@ -52,17 +56,9 @@ public class WSTLootModifier extends LootModifier {
 		else return false;
 	}
 
-	public static class Serializer extends GlobalLootModifierSerializer<WSTLootModifier> {
-
-		@Override
-		public WSTLootModifier read(ResourceLocation location, JsonObject object, LootItemCondition[] conditions) {
-			return new WSTLootModifier(conditions);
-		}
-
-		@Override
-		public JsonObject write(WSTLootModifier instance) {
-			return this.makeConditions(instance.conditions);
-		}
+	@Override
+	public Codec<? extends IGlobalLootModifier> codec() {
+		return CODEC.get();
 	}
 
 }
