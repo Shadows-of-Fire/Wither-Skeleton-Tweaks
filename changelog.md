@@ -1,3 +1,7 @@
+## 8.0.1
+* Changed conversion code to use Mob#convertTo instead of creating a brand new entity.
+  * This should allow me to track conversions better for things such as Gateways to Eternity.
+
 ## 8.0.0
 * Updated to 1.19.2
 
