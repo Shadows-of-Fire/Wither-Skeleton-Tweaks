@@ -15,6 +15,7 @@ import net.minecraft.world.entity.monster.WitherSkeleton;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
@@ -40,6 +41,7 @@ public class WSTEvents {
 					if (witherSkel == null) return;
 					witherSkel.moveTo(x, y, z, 0, 0);
 					world.addFreshEntity(witherSkel);
+					ForgeEventFactory.onLivingConvert(skeleton, witherSkel);
 					if (WSTConfig.giveBows) witherSkel.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.BOW));
 				}
 			}

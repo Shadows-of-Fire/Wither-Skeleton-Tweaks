@@ -1,3 +1,6 @@
+## 8.0.2
+* Added code to fire LivingConversionEvent.Post after the skeletons are converted.
+
 ## 8.0.1
 * Changed conversion code to use Mob#convertTo instead of creating a brand new entity.
   * This should allow me to track conversions better for things such as Gateways to Eternity.
