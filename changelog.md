@@ -1,3 +1,6 @@
+## 8.0.3
+* Fixed a worldgen crash.
+
 ## 8.0.2
 * Added code to fire LivingConversionEvent.Post after the skeletons are converted.
 

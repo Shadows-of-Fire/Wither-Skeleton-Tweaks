@@ -28,19 +28,18 @@ public class WSTEvents {
 	@SubscribeEvent
 	public static void witherTransform(LivingSpawnEvent.SpecialSpawn event) {
 		if (event.getEntity() instanceof Skeleton skeleton && !skeleton.isRemoved()) {
-			Level world = skeleton.level;
-			RandomSource rand = world.random;
-			if (!event.getEntity().level.isClientSide) {
+			RandomSource rand = event.getLevel().getRandom();
+			if (!event.getLevel().isClientSide()) {
 				double x = skeleton.getX();
 				double y = skeleton.getY();
 				double z = skeleton.getZ();
-				if (world.dimension() == Level.NETHER || WSTConfig.allBiomes && event.getLevel().getRawBrightness(new BlockPos(x, y, z), 0) < 9 && rand.nextFloat() < WSTConfig.allBiomesChance) {
+				if (skeleton.level.dimension() == Level.NETHER || WSTConfig.allBiomes && event.getLevel().getRawBrightness(new BlockPos(x, y, z), 0) < 9 && rand.nextFloat() < WSTConfig.allBiomesChance) {
 					event.setCanceled(true);
 					skeleton.getPersistentData().putBoolean("wst.removed", true);
 					WitherSkeleton witherSkel = skeleton.convertTo(EntityType.WITHER_SKELETON, true);
 					if (witherSkel == null) return;
 					witherSkel.moveTo(x, y, z, 0, 0);
-					world.addFreshEntity(witherSkel);
+					event.getLevel().addFreshEntity(witherSkel);
 					ForgeEventFactory.onLivingConvert(skeleton, witherSkel);
 					if (WSTConfig.giveBows) witherSkel.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.BOW));
 				}
