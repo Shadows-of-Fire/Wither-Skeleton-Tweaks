@@ -41,13 +41,8 @@ public class WSTEvents {
 	public static void join(EntityJoinLevelEvent e) {
 		if (e.getEntity() instanceof Skeleton skeleton && e.getEntity().getPersistentData().getBoolean("wst.removed")) {
 			e.setCanceled(true);
-			double x = skeleton.getX();
-			double y = skeleton.getY();
-			double z = skeleton.getZ();
 			WitherSkeleton witherSkel = skeleton.convertTo(EntityType.WITHER_SKELETON, true);
 			if (witherSkel == null) return;
-			witherSkel.moveTo(x, y, z, 0, 0);
-			e.getLevel().addFreshEntity(witherSkel);
 			ForgeEventFactory.onLivingConvert(skeleton, witherSkel);
 			if (WSTConfig.giveBows) witherSkel.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.BOW));
 		}
