@@ -1,3 +1,7 @@
+## 8.0.4
+* Actually fixed the worldgen crash in all circumstances.
+  * It turns out `Mob#convertTo` actually adds the new entity to the world, which breaks things during worldgen.
+
 ## 8.0.3
 * Fixed a worldgen crash.
 
