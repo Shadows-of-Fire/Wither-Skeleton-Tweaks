@@ -1,4 +1,4 @@
-package shadows.wstweaks;
+package dev.shadowsoffire.wstweaks;
 
 import java.util.ArrayList;
 import java.util.List;

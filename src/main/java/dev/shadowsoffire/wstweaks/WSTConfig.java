@@ -1,4 +1,4 @@
-package shadows.wstweaks;
+package dev.shadowsoffire.wstweaks;
 
 import dev.shadowsoffire.placebo.config.Configuration;
 
