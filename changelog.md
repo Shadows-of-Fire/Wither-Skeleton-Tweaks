@@ -1,3 +1,10 @@
+## 9.0.1
+* Removed forge dependency line from the mods.toml and marked as Forge and NeoForge for CF.
+  * The dependency will be added back and the Forge marker will be removed once CF supports Neo correctly.
+
+## 9.0.0
+* Updated to 1.20.1
+
 ## 8.0.4
 * Actually fixed the worldgen crash in all circumstances.
   * It turns out `Mob#convertTo` actually adds the new entity to the world, which breaks things during worldgen.
