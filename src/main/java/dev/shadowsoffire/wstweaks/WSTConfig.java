@@ -4,7 +4,6 @@ import dev.shadowsoffire.placebo.config.Configuration;
 
 public class WSTConfig {
 
-    public static int shardValue;
     public static float shardDropChance;
     public static boolean allBiomes;
     public static float allBiomesChance;
@@ -16,7 +15,6 @@ public class WSTConfig {
 
     public static void load() {
         Configuration cfg = new Configuration(WitherSkeletonTweaks.MODID);
-        shardValue = cfg.getInt("Shard Value", "general", 9, 1, 9, "How many shards it takes to craft a Wither Skeleton Skull.");
         shardDropChance = cfg.getFloat("Shard Drop Chance", "general", 1.0F, 0, 1, "The chance for a skull shard to drop. 1 = 100%, 0.5 = 50%, etc");
         allBiomes = cfg.getBoolean("Convert All Biomes", "general", false, "If skeletons in ALL biomes are converted, instead of just the nether.");
         allBiomesChance = cfg.getFloat("All Biomes Chance", "general", 0.15F, 0, 1, "The chance for skeletons to be converted in all biomes, when enabled. 1 = 100%, 0.5 = 50%, etc");

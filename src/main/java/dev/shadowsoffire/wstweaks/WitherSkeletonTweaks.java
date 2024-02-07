@@ -1,14 +1,9 @@
 package dev.shadowsoffire.wstweaks;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import dev.shadowsoffire.placebo.recipe.RecipeHelper;
 import dev.shadowsoffire.placebo.util.RunnableReloader;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -18,7 +13,6 @@ import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
@@ -27,7 +21,6 @@ import net.minecraftforge.registries.RegisterEvent;
 public class WitherSkeletonTweaks {
 
     public static final String MODID = "wstweaks";
-    public static final RecipeHelper HELPER = new RecipeHelper(MODID);
     public static Tier IMMOLATION;
 
     static Item fragment, lavaBlade, blazeBlade;
@@ -37,17 +30,6 @@ public class WitherSkeletonTweaks {
         WSTConfig.load();
         IMMOLATION = new ForgeTier(9, WSTConfig.swordDurability, WSTConfig.swordAtkSpeed, WSTConfig.swordDamage, 30, null, () -> Ingredient.of(Items.NETHER_STAR));
         MinecraftForge.EVENT_BUS.addListener(this::reload);
-    }
-
-    @SubscribeEvent
-    public void setup(FMLCommonSetupEvent e) {
-        WitherSkeletonTweaks.HELPER.registerProvider(factory -> {
-            List<Ingredient> inputs = new ArrayList<>(9);
-            for (int i = 0; i < WSTConfig.shardValue; i++) {
-                inputs.add(Ingredient.of(fragment));
-            }
-            factory.addShapeless(new ItemStack(Items.WITHER_SKELETON_SKULL), inputs.toArray());
-        });
     }
 
     @SubscribeEvent
