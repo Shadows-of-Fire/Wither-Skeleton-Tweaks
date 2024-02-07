@@ -1,3 +1,7 @@
+## 9.1.0
+* Removed "Shard Value" config option. The fragment->skull recipe is now a json.
+* EndilCrafter: Added Japanese translation.
+
 ## 9.0.1
 * Removed forge dependency line from the mods.toml and marked as Forge and NeoForge for CF.
   * The dependency will be added back and the Forge marker will be removed once CF supports Neo correctly.
