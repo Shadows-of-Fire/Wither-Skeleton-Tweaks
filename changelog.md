@@ -1,3 +1,6 @@
+## 10.0.0
+* Updated to Minecraft 1.21.1.
+
 ## 9.1.0
 * Removed "Shard Value" config option. The fragment->skull recipe is now a json.
 * EndilCrafter: Added Japanese translation.
