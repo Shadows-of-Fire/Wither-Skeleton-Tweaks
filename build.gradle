@@ -1,12 +1,9 @@
 plugins {
-    id 'idea'
-    id 'eclipse'
+    id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.gradle' version '[6.0.18, 6.2)'
-    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'net.neoforged.moddev' version '2.0.10-beta'
     id 'com.diffplug.eclipse.apt' version '3.42.2'
-    id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
-    id 'net.darkhax.curseforgegradle' version '1.1.15'
+    id 'net.darkhax.curseforgegradle' version '1.1.18'
 }
 
 base {
@@ -15,38 +12,56 @@ base {
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(project.properties.javaVersion)
 
-minecraft {
-    mappings channel: 'parchment', version: project.properties.parchmentVersion
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-    enableEclipsePrepareRuns = true
-    copyIdeResources = true
-    generateRunFolders = true
-    runs {
-        configureEach {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', ''
-            property 'forge.logging.console.level', 'debug'
-            mods {
-                "${modid}" {
-                    source sourceSets.main
-                }
-            }
-        }
+// Forward declaration of generateModMetadata for use in the neoForge block. Definition is below.
+var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {}
 
-        client = {
-        }
-        server = {
-            args "--nogui"
-        }
-        data = {
-            workingDirectory project.file('run-data')
-            args '--mod', "${modid}", '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+neoForge {
+    version = project.properties.forgeVersion
+
+    parchment {
+        def split = "${parchmentVersion}".split('-')
+        minecraftVersion = split[1]
+        mappingsVersion = split[0]
+    }
+
+    mods {
+        create(project.name) {
+            sourceSet project.sourceSets.main
         }
     }
-}
 
-sourceSets.main.resources {
-    srcDir 'src/generated/resources'
+    runs {
+        configureEach {
+            logLevel = org.slf4j.event.Level.DEBUG
+            taskBefore generateModMetadata
+        }
+
+        client {
+            client()
+            systemProperty 'forge.enabledGameTestNamespaces', "${modid}"
+            ideName = "${project.name} - Client"
+        }
+
+        server {
+            server()
+            systemProperty 'forge.enabledGameTestNamespaces', "${modid}"
+            programArgument '--nogui'
+            ideName = "${project.name} - Server"
+        }
+
+        data {
+            data()
+            programArguments.addAll '--mod', "${modid}", '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+            ideName = "${project.name} - Data"
+        }
+    }
+
+    ideSyncTask generateModMetadata
+
+    neoFormRuntime {
+        useEclipseCompiler = false // Allows for parallelism on recompile
+        version = "1.0.3"
+    }
 }
 
 repositories {
@@ -87,36 +102,32 @@ repositories {
         url "https://maven.shadowsoffire.dev/releases"
         content {
             includeGroup "dev.shadowsoffire"
+            includeGroup "snownee.jade"
         }
     }
 }
 
+configurations {
+    compileClasspath.extendsFrom localImplementation
+    runtimeClasspath.extendsFrom localImplementation
+    runtimeClasspath.extendsFrom localRuntime
+}
+
 dependencies {
-    minecraft "net.neoforged:forge:${mcVersion}-${forgeVersion}"
-    if(project.mixin.toBoolean())                   annotationProcessor "org.spongepowered:mixin:${mixinVersion}:processor"
-    if(project.hasProperty('placeboVersion'))       implementation fg.deobf("dev.shadowsoffire:Placebo:${mcVersion}-${placeboVersion}")
-    if(project.hasProperty('jeiVersion'))           implementation fg.deobf("mezz.jei:jei-${mcVersion}-forge:${jeiVersion}")
-    if(project.hasProperty('jadeFileId'))           implementation fg.deobf("curse.maven:jade-324717:${jadeFileId}")
-    if(project.hasProperty('curiosVersion'))        implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curiosVersion}")
-    if(project.hasProperty('patchouliVersion'))     implementation fg.deobf("vazkii.patchouli:Patchouli:${patchouliVersion}")
-    if(project.hasProperty('topVersion'))           implementation fg.deobf(project.dependencies.create("mcjty.theoneprobe:theoneprobe:${topVersion}") {
-            transitive = false
-    })
-    if(project.hasProperty('bookshelfVersion'))     compileOnly    fg.deobf("net.darkhax.bookshelf:Bookshelf-Forge-${mcVersion}:${bookshelfVersion}")
-    if(project.hasProperty('gamestagesVersion'))    compileOnly    fg.deobf("net.darkhax.gamestages:GameStages-Forge-${mcVersion}:${gamestagesVersion}")
-    if(project.hasProperty('twilightFileId'))       implementation fg.deobf("curse.maven:the-twilight-forest-227639:${twilightFileId}")
-    if(project.hasProperty('gatewaysVersion'))      implementation fg.deobf("dev.shadowsoffire:GatewaysToEternity:${mcVersion}-${gatewaysVersion}")
-    if(project.hasProperty('attributeslibVersion')) implementation fg.deobf("dev.shadowsoffire:ApothicAttributes:${mcVersion}-${attributeslibVersion}")
+    if (project.mixin.toBoolean())                   annotationProcessor "org.spongepowered:mixin:${mixinVersion}:processor"
+    if (project.hasProperty('placeboVersion'))       implementation      "dev.shadowsoffire:Placebo:${mcVersion}-${placeboVersion}"
+    if (project.hasProperty('jeiVersion'))           localImplementation "mezz.jei:jei-${mcVersion}-neoforge:${jeiVersion}"
+    if (project.hasProperty('jadeVersion'))          localImplementation "snownee.jade:Jade-NeoForge:${mcVersion}-${jadeVersion}"
+    if (project.hasProperty('curiosVersion'))        implementation      "top.theillusivec4.curios:curios-neoforge:${curiosVersion}"
+    if (project.hasProperty('patchouliVersion'))     implementation      "vazkii.patchouli:Patchouli:${patchouliVersion}"
+    if (project.hasProperty('bookshelfVersion'))     localImplementation "net.darkhax.bookshelf:Bookshelf-Forge-${mcVersion}:${bookshelfVersion}"
+    if (project.hasProperty('gamestagesVersion'))    localImplementation "net.darkhax.gamestages:GameStages-Forge-${mcVersion}:${gamestagesVersion}"
+    if (project.hasProperty('twilightFileId'))       localImplementation "curse.maven:the-twilight-forest-227639:${twilightFileId}"
+    if (project.hasProperty('gatewaysVersion'))      localImplementation "dev.shadowsoffire:GatewaysToEternity:${mcVersion}-${gatewaysVersion}"
+    if (project.hasProperty('attributeslibVersion')) implementation      "dev.shadowsoffire:ApothicAttributes:${mcVersion}-${attributeslibVersion}"
 }
 
-mixin {
-    if (project.mixin.toBoolean()) {
-        config "${modid}.mixins.json"
-        add sourceSets.main, "${modid}.refmap.json"
-    }
-}
-
-tasks.named('processResources', ProcessResources).configure {
+tasks.named("generateModMetadata") {
     def replaceProperties = [
         modGroup: modGroup,
         modid: modid,
@@ -129,21 +140,28 @@ tasks.named('processResources', ProcessResources).configure {
         forgeVersion: forgeVersion
     ]
 
+    def licenseFile = file('LICENSE')
+    if (!licenseFile.exists()) {
+        throw new Exception('Missing LICENSE file in repository root.')
+    }
+    replaceProperties.put 'license', file('LICENSE').readLines().get(0)
+
     if (project.hasProperty('placeboVersion'))       replaceProperties.put 'placeboVersion', placeboVersion
     if (project.hasProperty('attributeslibVersion')) replaceProperties.put 'attributeslibVersion', attributeslibVersion
     if (project.hasProperty('curiosVersion'))        replaceProperties.put 'curiosVersion', curiosVersion
     if (project.hasProperty('topVersion'))           replaceProperties.put 'topVersion', topVersion
     if (project.hasProperty('patchouliVersion'))     replaceProperties.put 'patchouliVersion', patchouliVersion
 
+    replaceProperties.put 'mixinConfig', project.mixin.toBoolean() ? "[[mixins]]\nconfig=\"${modid}.mixins.json\"" : ""
+
     inputs.properties replaceProperties
 
-    def resourceTargets = [
-        'META-INF/mods.toml',
-        'pack.mcmeta'
-    ]
+    from("src/templates")
+    into("src/generated/resources")
 
-    filesMatching(resourceTargets) {
+    filesMatching('neoforge.mods.toml') {
         expand replaceProperties
+        name 'META-INF/neoforge.mods.toml'
     }
 
     // Automatically populate mixins.json from the mixin package and rename to modid.mixins.json
@@ -194,7 +212,7 @@ tasks.named('processResources', ProcessResources).configure {
     }
 
     // Automatically populate coremods.json file from existing coremod js files in /coremods
-    filesMatching('META-INF/coremods.json') {
+    filesMatching('coremods.json') {
         def names = []
         fileTree("${project.projectDir}/src/main/resources/coremods").visit { FileVisitDetails details ->
             def name = details.file.path.replace('\\', '/')
@@ -217,7 +235,25 @@ tasks.named('processResources', ProcessResources).configure {
         replaceProperties.put('coremods', coremods)
 
         expand replaceProperties
+        name 'META-INF/coremods.json'
     }
+}
+
+tasks.named('processResources') {
+    dependsOn generateModMetadata
+}
+
+tasks.withType(Jar) {
+    dependsOn generateModMetadata
+}
+
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
+    srcDir 'src/templates'
+}
+
+if (!project.enableTests.toBoolean()) {
+    sourceSets.remove(sourceSets.test)
 }
 
 tasks.named('jar', Jar).configure {
@@ -233,13 +269,13 @@ tasks.named('jar', Jar).configure {
             "MixinConfigs": project.mixin.toBoolean() ? "${modid}.mixins.json" : ""
         ])
     }
-
-    finalizedBy 'reobfJar'
+    exclude 'neoforge.mods.toml'
+    exclude 'mixins.json'
+    exclude 'coremods.json'
 }
 
 java {
     withSourcesJar()
-    // withJavadocJar()
 }
 
 publishing {
@@ -270,10 +306,6 @@ publishing {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
-}
-
-tasks.withType(GenerateModuleMetadata) {
-    enabled = false // Can't figure out how to disable the dependencies block here, and it's wrong by default (it pulls deobf deps).
 }
 
 def getChangelogLink() {
@@ -315,7 +347,7 @@ tasks.register('publishCurseForge', net.darkhax.curseforgegradle.TaskPublishCurs
         mainFile.addModLoader(splitList("${modLoaders}"))
         mainFile.addJavaVersion("Java ${javaVersion}")
         mainFile.addGameVersion("${mcVersion}")
-        mainFile.releaseType = "${releaseType}"
+        mainFile.releaseType = "${releaseType}"        
     
         if (project.hasProperty('requiredDeps')) {
             mainFile.addRequirement(splitList("${requiredDeps}"))

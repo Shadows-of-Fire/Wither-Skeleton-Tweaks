@@ -1,31 +1,26 @@
 package dev.shadowsoffire.wstweaks;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.monster.WitherSkeleton;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.living.MobSpawnEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.EventHooks;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 
 @EventBusSubscriber(modid = WitherSkeletonTweaks.MODID)
 public class WSTEvents {
 
     @SubscribeEvent
-    public static void witherTransform(MobSpawnEvent.FinalizeSpawn event) {
+    public static void witherTransform(FinalizeSpawnEvent event) {
         if (event.getEntity() instanceof Skeleton skeleton && !skeleton.isRemoved()) {
             RandomSource rand = event.getLevel().getRandom();
             if (!event.getLevel().isClientSide()) {
@@ -43,7 +38,7 @@ public class WSTEvents {
             e.setCanceled(true);
             WitherSkeleton witherSkel = skeleton.convertTo(EntityType.WITHER_SKELETON, true);
             if (witherSkel == null) return;
-            ForgeEventFactory.onLivingConvert(skeleton, witherSkel);
+            EventHooks.onLivingConvert(skeleton, witherSkel);
             if (WSTConfig.giveBows) witherSkel.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.BOW));
         }
     }
@@ -55,19 +50,10 @@ public class WSTEvents {
 
     public static void delSwords(LivingDropsEvent event) {
         if (WSTConfig.delSwords && !event.getEntity().level().isClientSide && event.getEntity() instanceof AbstractSkeleton) {
-
-            List<ItemEntity> toRemove = new ArrayList<>();
-            for (ItemEntity entity : event.getDrops()) {
-                ItemStack stack = entity.getItem();
-                if (stack.getItem() == Items.STONE_SWORD || stack.getItem() == Items.BOW) {
-                    CompoundTag tag = stack.getTag();
-                    if (tag != null && (tag.contains("Damage") && tag.getAllKeys().size() > 2 || tag.getAllKeys().size() > 1)) continue;
-                    toRemove.add(entity);
-                }
-            }
-
-            for (ItemEntity i : toRemove)
-                event.getDrops().remove(i);
+            event.getDrops().removeIf(ie -> {
+                ItemStack stack = ie.getItem();
+                return stack.is(Items.STONE_SWORD) || stack.is(Items.BOW);
+            });
         }
     }
 }

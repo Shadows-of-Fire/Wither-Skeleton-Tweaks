@@ -11,13 +11,13 @@ import net.minecraft.world.item.SwordItem;
 
 public class ItemImmolationBlade extends SwordItem {
 
-    public ItemImmolationBlade() {
-        super(WitherSkeletonTweaks.IMMOLATION, 0, WSTConfig.swordAtkSpeed, new Item.Properties());
+    public ItemImmolationBlade(Item.Properties properties) {
+        super(WitherSkeletonTweaks.IMMOLATION, properties);
     }
 
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        target.setSecondsOnFire(150);
+        target.igniteForSeconds(150);
         super.hurtEnemy(stack, target, attacker);
         if (target instanceof AbstractSkeleton) {
             target.setHealth(1);

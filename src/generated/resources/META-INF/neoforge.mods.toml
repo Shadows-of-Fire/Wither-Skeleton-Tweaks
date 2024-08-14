@@ -1,0 +1,40 @@
+modLoader="javafml"
+
+loaderVersion="[2,)"
+
+license="MIT License"
+
+[[mods]] #mandatory
+
+modId="wstweaks"
+
+version="9.1.0"
+
+displayName="Wither Skeleton Tweaks"
+
+authors="Shadows_of_Fire"
+
+description='''Turns all Skeletons in the Nether into Wither Skeletons, and adds Skull Fragments.'''
+
+
+
+[[dependencies.wstweaks]]
+    modId="minecraft"
+    type="required"
+    versionRange="[1.21.1,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.wstweaks]]
+    modId="neoforge"
+    type="required"
+    versionRange="[21.1.8,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.wstweaks]]
+    modId="placebo"
+    type="required"
+    versionRange="[9.4.1,)"
+    ordering="AFTER"
+    side="BOTH"

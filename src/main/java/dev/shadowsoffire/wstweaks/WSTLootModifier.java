@@ -1,9 +1,6 @@
 package dev.shadowsoffire.wstweaks;
 
-import java.util.function.Supplier;
-
-import com.google.common.base.Suppliers;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -18,12 +15,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraftforge.common.loot.IGlobalLootModifier;
-import net.minecraftforge.common.loot.LootModifier;
+import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
+import net.neoforged.neoforge.common.loot.LootModifier;
 
 public class WSTLootModifier extends LootModifier {
 
-    public static final Supplier<Codec<WSTLootModifier>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(inst -> codecStart(inst).apply(inst, WSTLootModifier::new)));
+    public static final MapCodec<WSTLootModifier> CODEC = RecordCodecBuilder.mapCodec(inst -> codecStart(inst).apply(inst, WSTLootModifier::new));
 
     protected WSTLootModifier(LootItemCondition[] conditionsIn) {
         super(conditionsIn);
@@ -46,21 +43,24 @@ public class WSTLootModifier extends LootModifier {
 
         if (ent != null && ent.getClass() == WitherSkeleton.class && ctx.getRandom().nextFloat() <= WSTConfig.shardDropChance) {
             if (generatedLoot.stream().noneMatch(i -> i.getItem() == Items.WITHER_SKELETON_SKULL)) {
-                generatedLoot.add(new ItemStack(WitherSkeletonTweaks.fragment));
+                generatedLoot.add(new ItemStack(WSTObjects.FRAGMENT));
             }
         }
+
         return generatedLoot;
     }
 
     private static boolean hasSword(DamageSource source) {
         Entity s = source.getEntity();
-        if (s instanceof LivingEntity) return ((LivingEntity) s).getMainHandItem().getItem() instanceof ItemImmolationBlade;
+        if (s instanceof LivingEntity living) {
+            return living.getWeaponItem().getItem() instanceof ItemImmolationBlade;
+        }
         else return false;
     }
 
     @Override
-    public Codec<? extends IGlobalLootModifier> codec() {
-        return CODEC.get();
+    public MapCodec<? extends IGlobalLootModifier> codec() {
+        return CODEC;
     }
 
 }

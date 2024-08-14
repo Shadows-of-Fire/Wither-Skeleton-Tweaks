@@ -1,0 +1,15 @@
+{
+    "required": true,
+    "package": "dev.shadowsoffire.wstweaks.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "refmap": "wstweaks.refmap.json",
+    "maxShiftBy": 5,
+    "mixins": [
+
+    ],
+    "client": [
+
+    ],
+    "minVersion": "0.8",
+    "maxShiftBy": 5
+}
