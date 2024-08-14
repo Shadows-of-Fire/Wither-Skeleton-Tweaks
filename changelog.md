@@ -1,3 +1,7 @@
+## 10.0.1
+* Smoong: Added Korean translation.
+* RuyaSavascisi: Added Turkish translation.
+
 ## 10.0.0
 * Updated to Minecraft 1.21.1.
 
