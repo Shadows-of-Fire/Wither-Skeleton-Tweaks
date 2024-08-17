@@ -59,7 +59,7 @@ neoForge {
     ideSyncTask generateModMetadata
 
     neoFormRuntime {
-        useEclipseCompiler = false // Allows for parallelism on recompile
+        useEclipseCompiler = false // Allows for parallelism on recompile - disabled due to a bug.
         version = "1.0.3"
     }
 }
@@ -128,6 +128,14 @@ dependencies {
 }
 
 tasks.named("generateModMetadata") {
+    inputs.dir('src/templates')
+
+    def mixinPath = "${project.projectDir}/src/main/java/${modGroup}/${modid}/mixin".replaceAll('\\.', '/')
+
+    if (file(mixinPath).exists()) {
+        inputs.dir(mixinPath)
+    }
+
     def replaceProperties = [
         modGroup: modGroup,
         modid: modid,
@@ -169,8 +177,7 @@ tasks.named("generateModMetadata") {
         def mixinFiles = []
         def clientMixinFiles = []
 
-        def path = "${project.projectDir}/src/main/java/${modGroup}/${modid}/mixin".replaceAll('\\.', '/')
-        fileTree(path).visit { FileVisitDetails details ->
+        fileTree(mixinPath).visit { FileVisitDetails details ->
             def name = details.file.path.replace('\\', '/')
             name = name.substring(name.indexOf('mixin/') + 'mixin/'.length(), name.length())
             if(name.endsWith('.java')) {
@@ -249,7 +256,15 @@ tasks.withType(Jar) {
 
 sourceSets.main.resources {
     srcDir 'src/generated/resources'
-    srcDir 'src/templates'
+}
+
+// Declare an additional sourceset so un-expanded template files are visible in the IDE.
+sourceSets {
+    templates {
+        resources {
+            srcDir 'src/templates'
+        }
+    }
 }
 
 if (!project.enableTests.toBoolean()) {
@@ -261,17 +276,13 @@ tasks.named('jar', Jar).configure {
         attributes([
             "Specification-Title": project.fileName,
             "Specification-Vendor": project.author,
-            "Specification-Version": "1.0", // We are version 1 of ourselves
+            "Specification-Version": project.version,
             "Implementation-Title": project.fileName,
             "Implementation-Version": project.version,
             "Implementation-Vendor" : project.author,
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-            "MixinConfigs": project.mixin.toBoolean() ? "${modid}.mixins.json" : ""
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
-    exclude 'neoforge.mods.toml'
-    exclude 'mixins.json'
-    exclude 'coremods.json'
 }
 
 java {
@@ -337,7 +348,7 @@ def splitList(list) {
 }
 
 tasks.register('publishCurseForge', net.darkhax.curseforgegradle.TaskPublishCurseForge).configure {
-    if (project.hasProperty('curseforgeUploadToken')) {
+    if (project.hasProperty('curseforgeUploadToken') && project.hasProperty('curseforgeProjectId')) {
         apiToken = getProperty('curseforgeUploadToken')
         disableVersionDetection()
     
