@@ -1,3 +1,6 @@
+## 10.0.2
+* Fixed recipes not loading due to the path change from `recipes` to `recipe`.
+
 ## 10.0.1
 * Smoong: Added Korean translation.
 * RuyaSavascisi: Added Turkish translation.
