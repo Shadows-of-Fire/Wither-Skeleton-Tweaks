@@ -24,7 +24,7 @@ public class WitherSkeletonTweaks {
     public WitherSkeletonTweaks(IEventBus bus) {
         bus.register(this);
         WSTConfig.load();
-        IMMOLATION = new SimpleTier(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, WSTConfig.swordDurability, WSTConfig.swordAtkSpeed, WSTConfig.swordDamage, 30, () -> Ingredient.of(Items.NETHER_STAR));
+        IMMOLATION = new SimpleTier(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, WSTConfig.swordDurability, 0, WSTConfig.swordDamage, 30, () -> Ingredient.of(Items.NETHER_STAR));
         NeoForge.EVENT_BUS.addListener(this::reload);
         WSTObjects.bootstrap(bus);
     }
