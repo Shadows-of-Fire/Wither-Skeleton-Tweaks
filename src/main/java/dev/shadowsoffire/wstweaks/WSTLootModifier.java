@@ -53,7 +53,7 @@ public class WSTLootModifier extends LootModifier {
     private static boolean hasSword(DamageSource source) {
         Entity s = source.getEntity();
         if (s instanceof LivingEntity living) {
-            return living.getWeaponItem().getItem() instanceof ItemImmolationBlade;
+            return living.getWeaponItem().getItem() instanceof ImmolationBladeItem;
         }
         else return false;
     }

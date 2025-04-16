@@ -13,9 +13,7 @@ public class WSTObjects {
 
     public static final Holder<Item> FRAGMENT = R.item("fragment", Item::new);
 
-    public static final Holder<Item> LAVA_BLADE = R.item("lava_blade", ItemImmolationBlade::new, p -> p.attributes(SwordItem.createAttributes(WitherSkeletonTweaks.IMMOLATION, 0, WSTConfig.swordAtkSpeed)));
-
-    public static final Holder<Item> BLAZE_BLADE = R.item("blaze_blade", ItemImmolationBlade::new, p -> p.attributes(SwordItem.createAttributes(WitherSkeletonTweaks.IMMOLATION, 0, WSTConfig.swordAtkSpeed)));
+    public static final Holder<Item> IMMOLATION_BLADE = R.item("immolation_blade", ImmolationBladeItem::new, p -> p.attributes(SwordItem.createAttributes(WitherSkeletonTweaks.IMMOLATION, 0, WSTConfig.swordAtkSpeed)));
 
     static {
         R.custom("wstmodifier", NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, () -> WSTLootModifier.CODEC);

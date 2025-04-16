@@ -1,6 +1,6 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "wstweaks:items/sword"
+        "layer0": "wstweaks:items/immolation_blade"
     }
 }

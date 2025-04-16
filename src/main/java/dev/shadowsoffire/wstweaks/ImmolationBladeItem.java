@@ -9,9 +9,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 
-public class ItemImmolationBlade extends SwordItem {
+public class ImmolationBladeItem extends SwordItem {
 
-    public ItemImmolationBlade(Item.Properties properties) {
+    public ImmolationBladeItem(Item.Properties properties) {
         super(WitherSkeletonTweaks.IMMOLATION, properties);
     }
 

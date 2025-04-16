@@ -1,6 +1,7 @@
 package dev.shadowsoffire.wstweaks;
 
 import dev.shadowsoffire.placebo.util.RunnableReloader;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -10,6 +11,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.SimpleTier;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
@@ -30,10 +32,17 @@ public class WitherSkeletonTweaks {
     }
 
     @SubscribeEvent
+    public void setup(FMLCommonSetupEvent e) {
+        e.enqueueWork(() -> {
+            BuiltInRegistries.ITEM.addAlias(loc("blaze_blade"), WSTObjects.IMMOLATION_BLADE.getKey().location());
+            BuiltInRegistries.ITEM.addAlias(loc("lava_blade"), WSTObjects.IMMOLATION_BLADE.getKey().location());
+        });
+    }
+
+    @SubscribeEvent
     public void tabs(BuildCreativeModeTabContentsEvent e) {
         if (e.getTabKey() == CreativeModeTabs.COMBAT) {
-            e.accept(WSTObjects.LAVA_BLADE.value());
-            e.accept(WSTObjects.BLAZE_BLADE.value());
+            e.accept(WSTObjects.IMMOLATION_BLADE.value());
         }
         else if (e.getTabKey() == CreativeModeTabs.INGREDIENTS) {
             e.accept(WSTObjects.FRAGMENT.value());
