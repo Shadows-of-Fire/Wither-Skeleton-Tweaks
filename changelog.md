@@ -1,3 +1,10 @@
+## 10.1.0
+* Modernized the Immolation Blade. The blade now only has a single variant with a new (very appropriate) texture.
+  * The old textures were from uh... 2016. They had a good run.
+  * Existing blades will be migrated to the new one.
+* Fixed the Immolation Blade not being enchantable.
+* Fixed the Immolation Blade having 4.0 attack speed (and ignoring the attack speed config).
+
 ## 10.0.2
 * Fixed recipes not loading due to the path change from `recipes` to `recipe`.
 
