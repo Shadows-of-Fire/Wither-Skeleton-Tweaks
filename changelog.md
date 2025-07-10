@@ -1,3 +1,6 @@
+## 10.1.1
+* Updated to Placebo 9.9.0.
+
 ## 10.1.0
 * Modernized the Immolation Blade. The blade now only has a single variant with a new (very appropriate) texture.
   * The old textures were from uh... 2016. They had a good run.
