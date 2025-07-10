@@ -28,13 +28,13 @@ description='''Turns all Skeletons in the Nether into Wither Skeletons, and adds
 [[dependencies.wstweaks]]
     modId="neoforge"
     type="required"
-    versionRange="[21.1.8,)"
+    versionRange="[21.1.187,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.wstweaks]]
     modId="placebo"
     type="required"
-    versionRange="[9.4.1,)"
+    versionRange="[9.9.0,)"
     ordering="AFTER"
     side="BOTH"

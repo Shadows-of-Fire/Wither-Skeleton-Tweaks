@@ -16,7 +16,7 @@ public class WSTObjects {
     public static final Holder<Item> IMMOLATION_BLADE = R.item("immolation_blade", ImmolationBladeItem::new, p -> p.attributes(SwordItem.createAttributes(WitherSkeletonTweaks.IMMOLATION, 0, WSTConfig.swordAtkSpeed)));
 
     static {
-        R.custom("wstmodifier", NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, () -> WSTLootModifier.CODEC);
+        R.custom("wstmodifier", NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, WSTLootModifier.CODEC);
     }
 
     public static void bootstrap(IEventBus bus) {
