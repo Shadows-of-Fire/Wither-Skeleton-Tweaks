@@ -13,9 +13,11 @@ import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.EventHooks;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 @EventBusSubscriber(modid = WitherSkeletonTweaks.MODID)
 public class WSTEvents {
@@ -48,6 +50,11 @@ public class WSTEvents {
     @SubscribeEvent
     public static void handleDropsEvent(LivingDropsEvent event) {
         delSwords(event);
+    }
+
+    @SubscribeEvent
+    public static void sync(OnDatapackSyncEvent e) {
+        e.getRelevantPlayers().forEach(p -> PacketDistributor.sendToPlayer(p, new WSTConfig.ConfigPayload()));
     }
 
     public static void delSwords(LivingDropsEvent event) {

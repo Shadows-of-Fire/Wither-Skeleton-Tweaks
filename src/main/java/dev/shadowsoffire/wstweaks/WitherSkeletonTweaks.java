@@ -1,5 +1,6 @@
 package dev.shadowsoffire.wstweaks;
 
+import dev.shadowsoffire.placebo.network.PayloadHelper;
 import dev.shadowsoffire.placebo.util.RunnableReloader;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -22,12 +23,14 @@ public class WitherSkeletonTweaks {
 
     public static final String MODID = "wstweaks";
     public static final TagKey<Item> IMMOLATION_REPAIR = TagKey.create(Registries.ITEM, loc("immolation_repair"));
-    public static ToolMaterial IMMOLATION;
+
+    // The durability and attack-damage params are placeholders: both are supplied live (from the synced config) by
+    // ImmolationBladeItem#getMaxDamage / #getDefaultAttributeModifiers, so nothing latches at registration.
+    public static final ToolMaterial IMMOLATION = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 1, 0, 0, 30, IMMOLATION_REPAIR);
 
     public WitherSkeletonTweaks(IEventBus bus) {
         bus.register(this);
         WSTConfig.load();
-        IMMOLATION = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, WSTConfig.swordDurability, 0, WSTConfig.swordDamage, 30, IMMOLATION_REPAIR);
         NeoForge.EVENT_BUS.addListener(this::reload);
         WSTObjects.bootstrap(bus);
     }
@@ -37,6 +40,7 @@ public class WitherSkeletonTweaks {
         e.enqueueWork(() -> {
             BuiltInRegistries.ITEM.addAlias(loc("blaze_blade"), WSTObjects.IMMOLATION_BLADE.getKey().identifier());
             BuiltInRegistries.ITEM.addAlias(loc("lava_blade"), WSTObjects.IMMOLATION_BLADE.getKey().identifier());
+            PayloadHelper.registerPayload(new WSTConfig.ConfigPayload.Provider());
         });
     }
 
