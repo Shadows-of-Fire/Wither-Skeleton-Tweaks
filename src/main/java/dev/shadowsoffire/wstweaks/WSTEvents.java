@@ -2,10 +2,11 @@ package dev.shadowsoffire.wstweaks;
 
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.ConversionParams;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.monster.AbstractSkeleton;
-import net.minecraft.world.entity.monster.Skeleton;
-import net.minecraft.world.entity.monster.WitherSkeleton;
+import net.minecraft.world.entity.monster.skeleton.AbstractSkeleton;
+import net.minecraft.world.entity.monster.skeleton.Skeleton;
+import net.minecraft.world.entity.monster.skeleton.WitherSkeleton;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -34,12 +35,13 @@ public class WSTEvents {
 
     @SubscribeEvent
     public static void join(EntityJoinLevelEvent e) {
-        if (e.getEntity() instanceof Skeleton skeleton && e.getEntity().getPersistentData().getBoolean("wst.removed")) {
+        if (e.getEntity() instanceof Skeleton skeleton && e.getEntity().getPersistentData().getBooleanOr("wst.removed", false)) {
             e.setCanceled(true);
-            WitherSkeleton witherSkel = skeleton.convertTo(EntityType.WITHER_SKELETON, true);
+            WitherSkeleton witherSkel = skeleton.convertTo(EntityType.WITHER_SKELETON, ConversionParams.single(skeleton, true, true), wskel -> {
+                if (WSTConfig.giveBows) wskel.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.BOW));
+            });
             if (witherSkel == null) return;
             EventHooks.onLivingConvert(skeleton, witherSkel);
-            if (WSTConfig.giveBows) witherSkel.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.BOW));
         }
     }
 
@@ -49,7 +51,7 @@ public class WSTEvents {
     }
 
     public static void delSwords(LivingDropsEvent event) {
-        if (WSTConfig.delSwords && !event.getEntity().level().isClientSide && event.getEntity() instanceof AbstractSkeleton) {
+        if (WSTConfig.delSwords && !event.getEntity().level().isClientSide() && event.getEntity() instanceof AbstractSkeleton) {
             event.getDrops().removeIf(ie -> {
                 ItemStack stack = ie.getItem();
                 return stack.is(Items.STONE_SWORD) || stack.is(Items.BOW);

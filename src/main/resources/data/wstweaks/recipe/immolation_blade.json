@@ -6,15 +6,9 @@
     "TL "
   ],
   "key": {
-    "L": {
-      "item": "minecraft:blaze_rod"
-    },
-    "S": {
-      "item": "minecraft:nether_star"
-    },
-    "T": {
-      "item": "minecraft:stick"
-    }
+    "L": "minecraft:blaze_rod",
+    "S": "minecraft:nether_star",
+    "T": "minecraft:stick"
   },
   "result": {
     "id": "wstweaks:immolation_blade"

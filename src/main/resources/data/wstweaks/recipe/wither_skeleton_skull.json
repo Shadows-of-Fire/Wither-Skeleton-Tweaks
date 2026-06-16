@@ -6,9 +6,7 @@
     "SSS"
   ],
   "key": {
-    "S": {
-      "item": "wstweaks:fragment"
-    }
+    "S": "wstweaks:fragment"
   },
   "result": {
     "id": "minecraft:wither_skeleton_skull"

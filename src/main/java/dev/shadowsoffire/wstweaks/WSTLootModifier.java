@@ -8,8 +8,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.AbstractSkeleton;
-import net.minecraft.world.entity.monster.WitherSkeleton;
+import net.minecraft.world.entity.monster.skeleton.AbstractSkeleton;
+import net.minecraft.world.entity.monster.skeleton.WitherSkeleton;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -22,14 +22,14 @@ public class WSTLootModifier extends LootModifier {
 
     public static final MapCodec<WSTLootModifier> CODEC = RecordCodecBuilder.mapCodec(inst -> codecStart(inst).apply(inst, WSTLootModifier::new));
 
-    protected WSTLootModifier(LootItemCondition[] conditionsIn) {
-        super(conditionsIn);
+    protected WSTLootModifier(LootItemCondition[] conditionsIn, int priority) {
+        super(conditionsIn, priority);
     }
 
     @Override
     protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext ctx) {
-        Entity ent = ctx.getParamOrNull(LootContextParams.THIS_ENTITY);
-        DamageSource src = ctx.getParamOrNull(LootContextParams.DAMAGE_SOURCE);
+        Entity ent = ctx.getOptionalParameter(LootContextParams.THIS_ENTITY);
+        DamageSource src = ctx.getOptionalParameter(LootContextParams.DAMAGE_SOURCE);
         if (src != null && ent != null) {
             if (src.typeHolder().is(DamageTypes.FIREWORKS) || hasSword(src)) {
                 if (ent.getClass() == WitherSkeleton.class) {
