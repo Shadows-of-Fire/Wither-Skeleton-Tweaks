@@ -39,8 +39,10 @@ public class ImmolationBladeItem extends Item {
     public void hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         target.igniteForSeconds(150);
         if (target instanceof AbstractSkeleton && target.level() instanceof ServerLevel level) {
-            target.setHealth(1);
-            target.hurtServer(level, level.damageSources().source(DamageTypes.FIREWORKS), 150);
+            if (!target.isDeadOrDying()) {
+                target.setHealth(1);
+                target.hurtServer(level, level.damageSources().source(DamageTypes.FIREWORKS), 150);
+            }
             double i = target.getRandom().nextDouble() * 4.0D;
             double d = target.getRandom().nextDouble() * 4.0D;
             double k = target.getRandom().nextDouble() * 4.0D;
