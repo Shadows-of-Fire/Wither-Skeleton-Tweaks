@@ -1,3 +1,6 @@
+## 11.0.1
+* Fixed an issue where Immolation Blades, combined with other damage amplifications, could cause enemies to die twice.
+
 ## 11.0.0
 * Ported to Minecraft 26.1.2
 
